@@ -1,7 +1,10 @@
 # QuLTL
 A model checker for QuLTL.
 
+## 1. Introduction to QuLTL
 QuLTL is a variant of LTL for data structure __queue__. 
+
+### Syntax
 
 ```
 phi ::= msg
@@ -34,5 +37,9 @@ qula ::= Q[i]
       
 c ::= constant
 ```
+### Semantics
 
+## 2. QuLTL Model Checker
+
+For now, we assume that Q is always bounded.
          
