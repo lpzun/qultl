@@ -25,7 +25,8 @@ literal ::= qula brop qula
          
 brop := > | = | < | >= | <=
          
-qula ::= #msg
+qula ::= Q[i] 
+      | #msg
       | c
       | size
       | qula + qula
