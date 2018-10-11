@@ -3,6 +3,7 @@ A model checker for QuLTL.
 
 QuLTL is a variant of LTL for data structure __queue__. 
 
+```
 phi ::= msg
      | true
      | false
@@ -31,6 +32,6 @@ qula ::= #msg
       | qula - qula
       
 c ::= constant
-
+```
 
          
