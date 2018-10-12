@@ -8,34 +8,34 @@ QuLTL is a variant of LTL for data structure __queue__.
 
 ```
 phi ::= msg
-     | true
-     | false
      | qexpr
      | X phi
      | G phi
      | phi U phi
      
 qexpr ::= literal
-       | ~qexpr
+       | true
+       | false
+       | !qexpr
        | qexpr & qexpr
        | qexpr | qexpr
        | qexpr -> qexpr
-       | qexpr <-> qexpr
      
-literal ::= qula brop qula
-         | qula brop c
-         | c brop qula
+literal ::= atom brop atom
          
 brop := > | = | < | >= | <=
+
+;; index ::= [i]: unsupporting for now
          
-qula ::= Q[i] 
-      | #msg
+atom ::= #msg
       | c
-      | size
-      | qula + qula
-      | qula - qula
+      | []
+      | atom + atom
+      | atom - atom
       
 c ::= constant
+;; i ::= constant unsupported for now
+
 ```
 ### Semantics
 
