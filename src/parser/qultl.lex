@@ -73,10 +73,13 @@
 "["			 { yylval->t_str = strdup(yytext); return ('['); }
 "]"			 { yylval->t_str = strdup(yytext); return (']'); }
 
+";"          { return (';'); }
+
 [0-9]+ 			  { yylval->t_val = atoi(yytext);   return token::T_NAT; }
+
 [a-zA-Z_\'][a-zA-Z0-9_$]* { yylval->t_str = strdup(yytext); return token::T_IDEN; }
 
-[ \t\n\v\f]		 { }
+[ \t\n\v\f]  { /*yylval->t_str = strdup(yytext); return token::T_DELIM;*/ } 
 . 			 { /* ignore bad characters */ }
 %%
 

@@ -19,7 +19,7 @@
 
 %code requires
 {
-# include "parser.hh"
+# include "helper.hh"
   using namespace qultl;
 }
 
@@ -35,9 +35,11 @@
 %union {
   int   t_val; // token's value
   char *t_str; // token's name
+  char *t_sep; // token's separator
 }
 
 /* declare tokens */
+%token T_QuLTL_F "F"
 %token T_QuLTL_G "G"
 %token T_QuLTL_X "X"          
 %token T_QuLTL_U "U"          
@@ -56,18 +58,21 @@
 %token T_LESS_THAN "<"			 
 %token T_GREATER_THAN ">"			
 %token T_LESS_THAN_OR_EQU "<="			 
-%token T_GREATER_THAN_OR_EQU ">="			
+%token T_GREATER_THAN_OR_EQU ">="
 
 %token T_COUNTING "#"
 
 %token T_CONST_TRUE "true"
 %token T_CONST_FALSE "false"
 
+%token T_END;
+
 %token <t_val> T_NAT
 %token <t_str> T_IDEN
+%token <t_sep> T_DELIM
 
-%type <t_str> phi qexpr literal qula msg // value
-%type <t_val> constant
+%type <t_str> phi qexpr literal atom msg brop// value
+%type <t_val> constant//
 
 %start phi
 %{
@@ -80,63 +85,55 @@
  }
 
 
-/*******************************************************************************
- * ** bison rules for BoPP parser 
- * ** BNF: prog
- *	    |-s_decllist 
- *	    |-funclist
- * 	      |-function
- *              |-funchead
- *              |-funcbody
- * 	          |-funcstmt
- * 	             |-l_declstmt
- * 	             |-initstmt
- * 	             |-labelstmt
- * 	               |-expr
- *               |-funcend
+/******************************************************************************
+ * ** bison rules for QuLTL parser
  ******************************************************************************/
 %%
-phi: msg {
-  cout<<($1);
-  free($1);
+phi: msg ';' {
 }
-| T_QuLTL_U phi {
-  cout<<
-}
-| T_QuLTL_X phi {
+| qexpr ';' {
 
 }
-| phi T_QuLTL_U phi {
-
+| T_QuLTL_F phi ';' {
+   qh.parse_and_update("F");
 }
-| '(' phi ')' {
-
+| T_QuLTL_G phi ';' {
+   qh.parse_and_update("G");
+}
+| T_QuLTL_X phi ';' {
+   qh.parse_and_update("X");
+}
+| phi T_QuLTL_U phi ';' {
+  qh.parse_and_update("U");
+}
+| '(' phi ')' ';' {
+  qh.parse_and_update("()");
 }
 ;
 
 qexpr: T_CONST_TRUE {
-
+  qh.parse_and_update("true");
 }
 | T_CONST_FALSE {
-
+  qh.parse_and_update("false");
 }
 | literal {
-
+  
 }
-| T_NEGATION          qexpr {
-
+| T_NEGATION qexpr {
+  qh.parse_and_update("!");
 }
-| qexpr T_AND         qexpr {
-
+| qexpr T_AND qexpr {
+  qh.parse_and_update("&");
 }
-| qexpr T_OR          qexpr {
-
+| qexpr T_OR qexpr {
+  qh.parse_and_update("|");
 }
 | qexpr T_IMPLICATION qexpr {
-
+  qh.parse_and_update("!");
 }
 | '(' qexpr ')' {
-
+  qh.parse_and_update("!");
 }
 ;
 
@@ -145,23 +142,23 @@ literal: atom brop atom {
 }
 ;
 
-brop: T_EQUAL    {
-
+brop: '='    {
+  qh.parse_and_update("=");
 }
 | T_NOT_EQUAL    {
-
+  qh.parse_and_update("!=");
 }
 | T_LESS_THAN    {
-
+  qh.parse_and_update("<");
 }
 | T_GREATER_THAN {
-
+  qh.parse_and_update(">");
 }
 | T_LESS_THAN_OR_EQU {
-
+  qh.parse_and_update("<=");
 }
 | T_GREATER_THAN_OR_EQU {
-
+  qh.parse_and_update(">=");
 }
 ;
 
@@ -169,28 +166,30 @@ atom: constant {
 
 }
 | T_COUNTING msg {
-
+  qh.parse_and_update("#");
 }
 | '[' ']' {
 
 }
 | atom T_ADDITION    atom {
-
+  qh.parse_and_update("+");
 }
 | atom T_SUBTRACTION atom {
-
+  qh.parse_and_update("-");
 }
 | '(' atom ')' {
-
+  qh.parse_and_update("()");
 }
 ;
 
 msg: T_IDEN {
-
+  qh.parse_and_update($1);
+  free($1);
 }
 ;
 
 constant: T_NAT {
+  qh.parse_and_update("a");
  }
 ;
 
@@ -203,7 +202,7 @@ constant: T_NAT {
  *    Mar. 2013
  ******************************************************************************/
 namespace yy {
-  void bp::error(location const &loc, const std::string& s) {
+  void qultl::error(location const &loc, const std::string& s) {
     std::cerr << "error at " << loc << ": " << s << std::endl;
   }
 }

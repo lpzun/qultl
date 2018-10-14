@@ -8,35 +8,31 @@
 #ifndef PARSER_PARSER_HH_
 #define PARSER_PARSER_HH_
 
-#include "../util/head.hh"
+#include "qultl.tab.hh"
+#include "head.hh"
+
+extern FILE *yyin;
 
 namespace qultl {
 
-using formula = deque<string>;
-
-/**
- * A helper class for qultl helper.
- *
- * It stores the parsed result.
- */
-class qultl_helper {
-public:
-	qultl_helper();
-	~qultl_helper();
-
-	void parse_and_update(const string& qexpr);
-	bool syntax_check(const string& qexpr);
-	bool is_legal_message(const string& msg);
-private:
-	formula phi;
-	deque<formula> formulae;
-	unordered_set<string> alphabet;
-};
-
 class qultl_parser {
 public:
-	qultl_parser();
+	qultl_parser(const string& filename, const alphabet& _E);
 	~qultl_parser();
+};
+
+class queue_parser {
+public:
+	static deque<string> parse_intput_queue(const string& filename);
+	static alphabet E;
+private:
+	static void remove_comments(istream& in, ostream& out,
+			const string& comment);
+	static void remove_comments(istream& in, const string& filename,
+			const string& comment);
+	static bool getline(istream& in, string& line, const char eol = '\n');
+
+	static deque<string> split(const string &s, const char delim);
 };
 
 } /* namespace qultl */

@@ -25,10 +25,9 @@
 #include <unordered_map>
 #include <type_traits>
 
-#include <cmath>
+#include <stdexcept>
 
-//#include "excp.hh"
-//#include "log.hh"
+#include <cmath>
 
 /// IO
 using std::cin;
@@ -36,9 +35,13 @@ using std::cout;
 using std::endl;
 using std::cerr;
 using std::clog;
+using std::istream;
 using std::ostream;
+using std::ifstream;
+using std::ofstream;
 
 using std::string;
+using std::istringstream;
 
 /// container
 using std::vector;
@@ -52,6 +55,8 @@ using std::unordered_set;
 using std::set;
 using std::pair;
 using std::bitset;
+
+using std::runtime_error;
 
 using ushort = unsigned short;
 using uint = unsigned int;
