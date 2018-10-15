@@ -45,6 +45,7 @@
 
 "G"          { return token::T_QuLTL_G; }
 "X"          { return token::T_QuLTL_X; }
+"F"          { return token::T_QuLTL_F; }
 "U"          { return token::T_QuLTL_U; }
 
 "+" 	     { return token::T_ADDITION; }

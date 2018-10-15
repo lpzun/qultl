@@ -69,21 +69,25 @@ int main(const int argc, const char * const * const argv) {
 		if (file == "X")
 			throw runtime_error("Please specify an input file!");
 
-
 		const string& phi = cmd.arg_value(
 				cmd_line::get_opt_index(opt_type::PROB), "--qultl-file");
 		if (phi == "X")
 			throw runtime_error("Please specify a qultl file!");
 
-		cout<<file<<endl;
+		cout << file << endl;
 
 		const auto& Q = queue_parser::parse_intput_queue(file);
-		alphabet E;
-		qultl_parser parser(phi, E);
 
-		for (const auto& s: Q)
-			cout<<s<<endl;
+		qultl_parser parser(phi, queue_parser::E);
+		cout << endl;
 
+		checker mc(parser.get_phi(), queue_parser::E);
+
+		if (mc.check(Q)) {
+			cout << "Check succeeded! Q |= phi holds! \n";
+		} else {
+			cout << "Check failed! Q |= phi does not hold! \n";
+		}
 	} catch (const std::exception& e) {
 		cerr << "ERROR: " << e.what() << endl;
 	}

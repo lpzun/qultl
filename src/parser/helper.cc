@@ -10,7 +10,7 @@
 namespace qultl {
 
 qultl_helper::qultl_helper() :
-		phi(), formulae(), E() {
+		phi(), E() {
 
 }
 

@@ -33,9 +33,13 @@ public:
 	bool syntax_check(const string& qexpr);
 	bool is_legal_alpha(const alpha& a);
 	void print();
+
+	const formula& get_phi() const {
+		return phi;
+	}
+
 private:
 	formula phi;
-	deque<formula> formulae;
 	alphabet E;
 };
 

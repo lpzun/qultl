@@ -71,8 +71,8 @@
 %token <t_str> T_IDEN
 %token <t_sep> T_DELIM
 
-%type <t_str> phi qexpr literal atom msg brop// value
-%type <t_val> constant//
+%type <t_str> phi literal msg // value
+%type <t_val> constant //
 
 %start phi
 %{
@@ -89,97 +89,119 @@
  * ** bison rules for QuLTL parser
  ******************************************************************************/
 %%
-phi: msg ';' {
-}
-| qexpr ';' {
+phi: bin_phi ';' {}
+;
 
-}
-| T_QuLTL_F phi ';' {
+bin_phi: una_phi {}
+| bin_phi T_QuLTL_U una_phi {
+  qh.parse_and_update("U");
+ }
+;
+
+una_phi: prm_phi {}
+| T_QuLTL_F una_phi {
    qh.parse_and_update("F");
 }
-| T_QuLTL_G phi ';' {
+| T_QuLTL_G una_phi {
    qh.parse_and_update("G");
 }
-| T_QuLTL_X phi ';' {
+| T_QuLTL_X una_phi {
    qh.parse_and_update("X");
 }
-| phi T_QuLTL_U phi ';' {
-  qh.parse_and_update("U");
-}
-| '(' phi ')' ';' {
+;
+
+prm_phi: '(' phi ')' {
   qh.parse_and_update("()");
+ }
+| msg {
+}
+| expr {
 }
 ;
 
-qexpr: T_CONST_TRUE {
+expr: or_expr {}
+| expr T_IMPLICATION or_expr {
+  qh.parse_and_update("->");
+ }
+;
+
+or_expr: and_expr {}
+| or_expr T_OR and_expr {
+  qh.parse_and_update("|");
+ }
+;
+
+and_expr: una_expr {}
+| and_expr T_AND una_expr {
+  qh.parse_and_update("&");
+ }
+;
+
+una_expr: prm_expr {}
+| T_NEGATION prm_expr {
+  qh.parse_and_update("!");
+ }
+;
+
+prm_expr: '(' expr ')' {
+  qh.parse_and_update("()");
+ }
+| T_CONST_TRUE {
   qh.parse_and_update("true");
-}
+  }
 | T_CONST_FALSE {
   qh.parse_and_update("false");
-}
-| literal {
-  
-}
-| T_NEGATION qexpr {
-  qh.parse_and_update("!");
-}
-| qexpr T_AND qexpr {
-  qh.parse_and_update("&");
-}
-| qexpr T_OR qexpr {
-  qh.parse_and_update("|");
-}
-| qexpr T_IMPLICATION qexpr {
-  qh.parse_and_update("!");
-}
-| '(' qexpr ')' {
-  qh.parse_and_update("!");
-}
+  }
+| literal {}
 ;
 
-literal: atom brop atom {
-  
-}
-;
-
-brop: '='    {
+literal: qula_expr T_EQUAL qula_expr {
   qh.parse_and_update("=");
 }
-| T_NOT_EQUAL    {
+| qula_expr T_NOT_EQUAL qula_expr {
   qh.parse_and_update("!=");
 }
-| T_LESS_THAN    {
+| qula_expr T_LESS_THAN qula_expr {
   qh.parse_and_update("<");
 }
-| T_GREATER_THAN {
+| qula_expr T_GREATER_THAN qula_expr {
   qh.parse_and_update(">");
 }
-| T_LESS_THAN_OR_EQU {
+| qula_expr T_LESS_THAN_OR_EQU qula_expr {
   qh.parse_and_update("<=");
 }
-| T_GREATER_THAN_OR_EQU {
+| qula_expr T_GREATER_THAN_OR_EQU qula_expr {
   qh.parse_and_update(">=");
 }
 ;
 
-atom: constant {
+qula_expr: qula_add_expr {}
+| qula_expr T_MULTIPLICATION qula_add_expr {
+  qh.parse_and_update("*");
+ }
+;
 
+qula_add_expr: qula_sub_expr {}
+| qula_add_expr T_ADDITION qula_sub_expr {
+  qh.parse_and_update("+");
+ }
+;
+
+qula_sub_expr: qula_prm_expr {}
+| qula_sub_expr T_SUBTRACTION qula_prm_expr {
+  qh.parse_and_update("-");
+ }
+;
+
+qula_prm_expr: '(' qula_expr ')' {
+  qh.parse_and_update("()");
 }
 | T_COUNTING msg {
   qh.parse_and_update("#");
 }
 | '[' ']' {
-
 }
-| atom T_ADDITION    atom {
-  qh.parse_and_update("+");
-}
-| atom T_SUBTRACTION atom {
-  qh.parse_and_update("-");
-}
-| '(' atom ')' {
-  qh.parse_and_update("()");
-}
+| constant {}
 ;
 
 msg: T_IDEN {
@@ -189,7 +211,7 @@ msg: T_IDEN {
 ;
 
 constant: T_NAT {
-  qh.parse_and_update("a");
+  qh.parse_and_update(std::to_string($1));
  }
 ;
 

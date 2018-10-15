@@ -19,6 +19,13 @@ class qultl_parser {
 public:
 	qultl_parser(const string& filename, const alphabet& _E);
 	~qultl_parser();
+
+	const formula& get_phi() const {
+		return phi;
+	}
+
+private:
+	formula phi;
 };
 
 class queue_parser {

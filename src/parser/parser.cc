@@ -9,11 +9,8 @@
 
 namespace qultl {
 
-qultl_parser::~qultl_parser() {
-
-}
-
-qultl_parser::qultl_parser(const string& filename, const alphabet& _E) {
+qultl_parser::qultl_parser(const string& filename, const alphabet& _E) :
+		phi() {
 	FILE *ltl_file = fopen(filename.c_str(), "r");
 	if (!ltl_file)
 		throw runtime_error(filename + " open failed!");
@@ -27,9 +24,16 @@ qultl_parser::qultl_parser(const string& filename, const alphabet& _E) {
 	if (result != 0)
 		throw runtime_error(
 				"Parser exit with error code: " + std::to_string(result));
+	cout << "phi := ";
 	qh.print();
+	phi = qh.get_phi();
 }
 
+qultl_parser::~qultl_parser() {
+
+}
+
+alphabet queue_parser::E;
 /**
  *
  * @param filename
@@ -52,6 +56,8 @@ deque<string> queue_parser::parse_intput_queue(const string& filename) {
 	string var;
 	string sep;
 	string val;
+
+	deque<string> EE;
 	while (std::getline(new_in, line)) {
 		if (line == "" || line.size() <= 2)
 			continue;
@@ -59,6 +65,11 @@ deque<string> queue_parser::parse_intput_queue(const string& filename) {
 		iss >> var >> sep >> val;
 		if (var == "Q")
 			Q = split(val, ',');
+		if (var == "E")
+			EE = split(val, ',');
+	}
+	for (const auto& a : E) {
+		queue_parser::E.emplace(a);
 	}
 	return Q;
 }

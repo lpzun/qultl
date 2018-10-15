@@ -9,13 +9,32 @@
 
 namespace qultl {
 
-
-
-checker::checker() {
-
+/**
+ *
+ * @param phi
+ * @param E
+ */
+checker::checker(const formula& phi, const alphabet& E) :
+		phi(), E(), counting() {
 }
 
 checker::~checker() {
+
+}
+
+/**
+ *
+ * @param Q
+ * @return
+ */
+bool checker::check(const deque<string>& Q) {
+	for (const auto& s: Q)
+		cout<<s<<endl;
+
+	return false;
+}
+
+bool checker::eval(const deque<string>& Q) {
 
 }
 
