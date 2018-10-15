@@ -1,4 +1,4 @@
-/*
+/**
  * helper.hh
  *
  * @date  : Oct 13, 2018
@@ -11,6 +11,47 @@
 #include "head.hh"
 
 namespace qultl {
+
+enum class op {
+	/// temporal operators
+	TMP_F = 0,
+	TMP_G,
+	TMP_X,
+	TMP_U,
+	/// queue operators
+	COUNT,
+	SIZE,
+	/// logical operators
+	NEGATION,
+	AND,
+	OR,
+	IMPLICATION,
+	EQUIVALENCE,
+	/// relation operators
+	EQUAL,
+	NOT_EQUAL,
+	LESS_THAN,
+	GREATER_THAN,
+	LESS_THAN_EQ,
+	GREATER_THAN_EQ,
+	/// arithmetic operators
+	ADDITION,
+	SUBTRACTION,
+	MULTIPLICATION,
+	/// parentheses
+	PARENTHSIS,
+	///
+	CONST_T,
+	CONST_F
+};
+
+ostream& operator<<(ostream& os, const op& o);
+
+struct expr {
+	deque<op> operators;
+	deque<string> operands;
+};
+
 /// operator
 using alpha = string;
 /// operand
@@ -29,7 +70,8 @@ public:
 	qultl_helper();
 	~qultl_helper();
 
-	void parse_and_update(const string& qexpr);
+	void parse_phi(const string& qexpr);
+	void parse_phi(const op& op);
 	bool syntax_check(const string& qexpr);
 	bool is_legal_alpha(const alpha& a);
 	void print();
@@ -40,10 +82,9 @@ public:
 
 private:
 	formula phi;
+	deque<op> operators;
 	alphabet E;
 };
-
-
 
 } /* namespace qultl */
 
