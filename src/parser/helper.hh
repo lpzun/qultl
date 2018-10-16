@@ -12,7 +12,7 @@
 
 namespace qultl {
 
-enum class op {
+enum class expr_op {
 	/// temporal operators
 	TMP_F = 0,
 	TMP_G,
@@ -45,20 +45,61 @@ enum class op {
 	CONST_F
 };
 
-ostream& operator<<(ostream& os, const op& o);
+ostream& operator<<(ostream& os, const expr_op& o);
+
+/**
+ * types of expression components
+ */
+enum class type_expr_comp {
+	OPERATOR, //!< OPERATOR
+	VARIABLE, //!< VARIABLE
+	CONSTANT //!< CONSTANT
+};
 
 struct expr {
-	deque<op> operators;
+	deque<expr_op> operators;
 	deque<string> operands;
 };
 
+using nat = unsigned int;
 /// operator
 using alpha = string;
-/// operand
-using opd = string;
+
+using alphabet = unordered_set<alpha>;
+
+class expr_comp {
+public:
+	expr_comp(const type_expr_comp& type, const expr_op& op);
+	expr_comp(const type_expr_comp& type, const nat v);
+	expr_comp(const type_expr_comp& type, const alpha& a);
+	~expr_comp();
+
+	expr_op get_op() const {
+		return _op;
+	}
+
+	type_expr_comp get_type() const {
+		return _type;
+	}
+
+	nat get_val() const {
+		return _val;
+	}
+
+	const alpha& get_var() const {
+		return _var;
+	}
+
+	friend ostream& operator<<(ostream& os, const expr_comp& e);
+private:
+	type_expr_comp _type;
+	expr_op _op;
+	nat _val;
+	alpha _var;
+};
+
 /// formula
-using formula = deque<string>;
-using alphabet = unordered_set<string>;
+using formula = deque<expr_comp>;
 
 /**
  * A helper class for qultl helper.
@@ -67,11 +108,13 @@ using alphabet = unordered_set<string>;
  */
 class qultl_helper {
 public:
-	qultl_helper();
+	qultl_helper(const alphabet& E);
 	~qultl_helper();
 
-	void parse_phi(const string& qexpr);
-	void parse_phi(const op& op);
+	void parse_phi(const string& var);
+	void parse_phi(const expr_op& op);
+	void parse_phi(const nat val);
+
 	bool syntax_check(const string& qexpr);
 	bool is_legal_alpha(const alpha& a);
 	void print();
@@ -82,8 +125,7 @@ public:
 
 private:
 	formula phi;
-	deque<op> operators;
-	alphabet E;
+	alphabet _E;
 };
 
 } /* namespace qultl */

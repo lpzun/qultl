@@ -15,7 +15,7 @@ namespace qultl {
  * @param E
  */
 checker::checker(const formula& phi, const alphabet& E) :
-		E(), counting() {
+		_phi(phi), _E(E), counting() {
 }
 
 checker::~checker() {
@@ -29,7 +29,7 @@ checker::~checker() {
  */
 bool checker::check(const deque<alpha>& Q) {
 	for (const auto& s : Q) {
-		if (E.find(s) == E.end())
+		if (_E.find(s) == _E.end())
 			throw runtime_error("Illegal message!");
 		counting[s]++;
 	}
@@ -37,13 +37,30 @@ bool checker::check(const deque<alpha>& Q) {
 	return eval(Q);
 }
 
+/**
+ * recover phi from expression
+ * @return
+ */
 string checker::recover_phi() {
 	stack<string> worklist;
-	/*
-	 for (const string& s : _phi) {
+	for (const auto& comp : _phi) {
+		switch(comp.get_type()) {
+		case type_expr_comp::VARIABLE:
+			worklist.push(comp.get_var());
+			break;
+		case type_expr_comp::CONSTANT:
+			worklist.push(std::to_string(comp.get_val()));
+			break;
+		default:
 
-	 }*/
+			break;
+		}
+	}
 	return worklist.top();
+}
+
+void checker::recover(const expr_op& op, stack<string>& worklist) {
+
 }
 /**
  *

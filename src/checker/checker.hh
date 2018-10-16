@@ -19,11 +19,13 @@ public:
 
 	bool check(const deque<string>& Q);
 private:
-	alphabet E;
+	formula _phi;
+	alphabet _E;
 	unordered_map<alpha, int> counting;
 	bool eval(const deque<string>& Q);
 
 	string recover_phi();
+	void recover(const expr_op& op, stack<string>& worklist);
 	bool eval_F();
 	int eval_counting(const alpha& a);
 };

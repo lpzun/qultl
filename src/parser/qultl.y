@@ -94,24 +94,24 @@ phi: bin_phi ';' {}
 
 bin_phi: una_phi {}
 | bin_phi T_QuLTL_U una_phi {
-  qh.parse_phi(op::TMP_U);
+  qh.parse_phi(expr_op::TMP_U);
  }
 ;
 
 una_phi: prm_phi {}
 | T_QuLTL_F una_phi {
-  qh.parse_phi(op::TMP_F);
+  qh.parse_phi(expr_op::TMP_F);
 }
 | T_QuLTL_G una_phi {
-   qh.parse_phi(op::TMP_G);
+   qh.parse_phi(expr_op::TMP_G);
 }
 | T_QuLTL_X una_phi {
-   qh.parse_phi(op::TMP_X);
+   qh.parse_phi(expr_op::TMP_X);
 }
 ;
 
 prm_phi: '(' phi ')' {
-  qh.parse_phi(op::PARENTHSIS);
+  qh.parse_phi(expr_op::PARENTHSIS);
  }
 | msg {
 }
@@ -121,86 +121,86 @@ prm_phi: '(' phi ')' {
 
 expr: or_expr {}
 | expr T_IMPLICATION or_expr {
-  qh.parse_phi(op::IMPLICATION);
+  qh.parse_phi(expr_op::IMPLICATION);
  }
 ;
 
 or_expr: and_expr {}
 | or_expr T_OR and_expr {
-  qh.parse_phi(op::OR);
+  qh.parse_phi(expr_op::OR);
  }
 ;
 
 and_expr: una_expr {}
 | and_expr T_AND una_expr {
-  qh.parse_phi(op::AND);
+  qh.parse_phi(expr_op::AND);
  }
 ;
 
 una_expr: prm_expr {}
 | T_NEGATION prm_expr {
-  qh.parse_phi(op::NEGATION);
+  qh.parse_phi(expr_op::NEGATION);
  }
 ;
 
 prm_expr: '(' expr ')' {
-  qh.parse_phi(op::PARENTHSIS);
+  qh.parse_phi(expr_op::PARENTHSIS);
  }
 | T_CONST_TRUE {
-  qh.parse_phi(op::CONST_T);
+  qh.parse_phi(expr_op::CONST_T);
   }
 | T_CONST_FALSE {
-  qh.parse_phi(op::CONST_F);
+  qh.parse_phi(expr_op::CONST_F);
   }
 | literal {}
 ;
 
 literal: qula_expr T_EQUAL qula_expr {
-  qh.parse_phi(op::EQUAL);
+  qh.parse_phi(expr_op::EQUAL);
 }
 | qula_expr T_NOT_EQUAL qula_expr {
-  qh.parse_phi(op::NOT_EQUAL);
+  qh.parse_phi(expr_op::NOT_EQUAL);
 }
 | qula_expr T_LESS_THAN qula_expr {
-  qh.parse_phi(op::LESS_THAN);
+  qh.parse_phi(expr_op::LESS_THAN);
 }
 | qula_expr T_GREATER_THAN qula_expr {
-  qh.parse_phi(op::GREATER_THAN);
+  qh.parse_phi(expr_op::GREATER_THAN);
 }
 | qula_expr T_LESS_THAN_OR_EQU qula_expr {
-  qh.parse_phi(op::LESS_THAN_EQ);
+  qh.parse_phi(expr_op::LESS_THAN_EQ);
 }
 | qula_expr T_GREATER_THAN_OR_EQU qula_expr {
-  qh.parse_phi(op::GREATER_THAN_EQ);
+  qh.parse_phi(expr_op::GREATER_THAN_EQ);
 }
 ;
 
 qula_expr: qula_add_expr {}
 | qula_expr T_MULTIPLICATION qula_add_expr {
-  qh.parse_phi(op::MULTIPLICATION);
+  qh.parse_phi(expr_op::MULTIPLICATION);
  }
 ;
 
 qula_add_expr: qula_sub_expr {}
 | qula_add_expr T_ADDITION qula_sub_expr {
-  qh.parse_phi(op::ADDITION);
+  qh.parse_phi(expr_op::ADDITION);
  }
 ;
 
 qula_sub_expr: qula_prm_expr {}
 | qula_sub_expr T_SUBTRACTION qula_prm_expr {
-  qh.parse_phi(op::SUBTRACTION);
+  qh.parse_phi(expr_op::SUBTRACTION);
  }
 ;
 
 qula_prm_expr: '(' qula_expr ')' {
-  qh.parse_phi(op::PARENTHSIS);
+  qh.parse_phi(expr_op::PARENTHSIS);
 }
 | T_COUNTING msg {
-  qh.parse_phi(op::COUNT);
+  qh.parse_phi(expr_op::COUNT);
 }
 | '[' ']' {
-  qh.parse_phi(op::SIZE);
+  qh.parse_phi(expr_op::SIZE);
 }
 | constant { }
 ;

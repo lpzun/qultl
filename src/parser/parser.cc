@@ -68,7 +68,7 @@ deque<string> queue_parser::parse_intput_queue(const string& filename) {
 		if (var == "E")
 			EE = split(val, ',');
 	}
-	for (const auto& a : E) {
+	for (const auto& a : EE) {
 		queue_parser::E.emplace(a);
 	}
 	return Q;

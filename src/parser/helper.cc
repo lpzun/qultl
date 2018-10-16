@@ -9,67 +9,67 @@
 
 namespace qultl {
 
-ostream& operator<<(ostream& os, const op& o) {
+ostream& operator<<(ostream& os, const expr_op& o) {
 	switch (o) {
-	case op::TMP_F:
+	case expr_op::TMP_F:
 		os << 'F';
 		break;
-	case op::TMP_G:
+	case expr_op::TMP_G:
 		os << 'G';
 		break;
-	case op::TMP_X:
+	case expr_op::TMP_X:
 		os << 'X';
 		break;
-	case op::COUNT:
+	case expr_op::COUNT:
 		os << '#';
 		break;
-	case op::SIZE:
+	case expr_op::SIZE:
 		os << "[]";
 		break;
-	case op::NEGATION:
+	case expr_op::NEGATION:
 		os << '!';
 		break;
-	case op::AND:
+	case expr_op::AND:
 		os << '&';
 		break;
-	case op::OR:
-		os<<'|';
+	case expr_op::OR:
+		os << '|';
 		break;
-	case op::IMPLICATION:
-		os<<"->";
+	case expr_op::IMPLICATION:
+		os << "->";
 		break;
-	case op::EQUIVALENCE:
-		os<<"<->";
+	case expr_op::EQUIVALENCE:
+		os << "<->";
 		break;
-	case op::EQUAL:
-		os<<'=';
+	case expr_op::EQUAL:
+		os << '=';
 		break;
-	case op::NOT_EQUAL:
-		os<<"!=";
+	case expr_op::NOT_EQUAL:
+		os << "!=";
 		break;
-	case op::LESS_THAN:
-		os<<'<';
+	case expr_op::LESS_THAN:
+		os << '<';
 		break;
-	case op::GREATER_THAN:
-		os<<'>';
+	case expr_op::GREATER_THAN:
+		os << '>';
 		break;
-	case op::LESS_THAN_EQ:
-		os<<"<=";
+	case expr_op::LESS_THAN_EQ:
+		os << "<=";
 		break;
-	case op::GREATER_THAN_EQ:
-		os<<">=";
+	case expr_op::GREATER_THAN_EQ:
+		os << ">=";
 		break;
-	case op::ADDITION:
-		os<<'+';
+	case expr_op::ADDITION:
+		os << '+';
 		break;
-	case op::SUBTRACTION:
-		os<<'+';
+	case expr_op::SUBTRACTION:
+		os << '+';
 		break;
-	case op::MULTIPLICATION:
-		os<<'+';
+	case expr_op::MULTIPLICATION:
+		os << '+';
 		break;
-	case op::PARENTHSIS:
-		os<<"()";
+	case expr_op::PARENTHSIS:
+		os << "()";
 		break;
 	default:
 		os << "illgeal operator!";
@@ -78,21 +78,56 @@ ostream& operator<<(ostream& os, const op& o) {
 	return os;
 }
 
-qultl_helper::qultl_helper() :
-		phi(), E() {
+expr_comp::expr_comp(const type_expr_comp& type, const expr_op& op) :
+		_type(type), _op(op), _val(), _var() {
 
+}
+expr_comp::expr_comp(const type_expr_comp& type, const nat val) :
+		_type(type), _op(), _val(val), _var() {
+
+}
+expr_comp::expr_comp(const type_expr_comp& type, const alpha& var) :
+		_type(type), _op(), _val(), _var(var) {
+
+}
+
+expr_comp::~expr_comp() {
+
+}
+
+ostream& operator<<(ostream& os, const expr_comp& e) {
+	switch (e.get_type()) {
+	case type_expr_comp::OPERATOR:
+		os << e.get_op();
+		break;
+	case type_expr_comp::CONSTANT:
+		os << e.get_val();
+		break;
+	default:
+		os << e.get_var();
+		break;
+	}
+	return os;
+}
+
+qultl_helper::qultl_helper() :
+		phi(), _E() {
 }
 
 qultl_helper::~qultl_helper() {
 
 }
 
-void qultl_helper::parse_phi(const op& op) {
-	operators.push_back(op);
+void qultl_helper::parse_phi(const expr_op& op) {
+	phi.emplace_back(type_expr_comp::OPERATOR, op);
 }
 
-void qultl_helper::parse_phi(const string& qexpr) {
-	phi.push_back(qexpr);
+void qultl_helper::parse_phi(const string& var) {
+	phi.emplace_back(type_expr_comp::VARIABLE, var);
+}
+
+void qultl_helper::parse_phi(const nat val) {
+	phi.emplace_back(type_expr_comp::CONSTANT, val);
 }
 
 bool qultl_helper::syntax_check(const string& qexpr) {
@@ -100,12 +135,10 @@ bool qultl_helper::syntax_check(const string& qexpr) {
 }
 
 bool qultl_helper::is_legal_alpha(const string& alpha) {
-	return E.find(alpha) != E.end();
+	return _E.find(alpha) != _E.end();
 }
 
 void qultl_helper::print() {
-	for (const auto &o : operators)
-		cout <<o<<" ";
 	for (const auto& e : phi)
 		cout << e << " ";
 }

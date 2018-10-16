@@ -83,11 +83,13 @@ int main(const int argc, const char * const * const argv) {
 
 		checker mc(parser.get_phi(), queue_parser::E);
 
+		cout<<"==============================================\n";
 		if (mc.check(Q)) {
 			cout << "Check succeeded! Q |= phi holds! \n";
 		} else {
 			cout << "Check failed! Q |= phi does not hold! \n";
 		}
+		cout<<"==============================================\n";
 	} catch (const std::exception& e) {
 		cerr << "ERROR: " << e.what() << endl;
 	}

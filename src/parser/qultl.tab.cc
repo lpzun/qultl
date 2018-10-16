@@ -639,7 +639,7 @@ namespace yy {
   case 4:
 #line 96 "qultl.y" // lalr1.cc:859
     {
-  qh.parse_phi(op::TMP_U);
+  qh.parse_phi(expr_op::TMP_U);
  }
 #line 645 "qultl.tab.cc" // lalr1.cc:859
     break;
@@ -653,7 +653,7 @@ namespace yy {
   case 6:
 #line 102 "qultl.y" // lalr1.cc:859
     {
-  qh.parse_phi(op::TMP_F);
+  qh.parse_phi(expr_op::TMP_F);
 }
 #line 659 "qultl.tab.cc" // lalr1.cc:859
     break;
@@ -661,7 +661,7 @@ namespace yy {
   case 7:
 #line 105 "qultl.y" // lalr1.cc:859
     {
-   qh.parse_phi(op::TMP_G);
+   qh.parse_phi(expr_op::TMP_G);
 }
 #line 667 "qultl.tab.cc" // lalr1.cc:859
     break;
@@ -669,7 +669,7 @@ namespace yy {
   case 8:
 #line 108 "qultl.y" // lalr1.cc:859
     {
-   qh.parse_phi(op::TMP_X);
+   qh.parse_phi(expr_op::TMP_X);
 }
 #line 675 "qultl.tab.cc" // lalr1.cc:859
     break;
@@ -677,7 +677,7 @@ namespace yy {
   case 9:
 #line 113 "qultl.y" // lalr1.cc:859
     {
-  qh.parse_phi(op::PARENTHSIS);
+  qh.parse_phi(expr_op::PARENTHSIS);
  }
 #line 683 "qultl.tab.cc" // lalr1.cc:859
     break;
@@ -705,7 +705,7 @@ namespace yy {
   case 13:
 #line 123 "qultl.y" // lalr1.cc:859
     {
-  qh.parse_phi(op::IMPLICATION);
+  qh.parse_phi(expr_op::IMPLICATION);
  }
 #line 711 "qultl.tab.cc" // lalr1.cc:859
     break;
@@ -719,7 +719,7 @@ namespace yy {
   case 15:
 #line 129 "qultl.y" // lalr1.cc:859
     {
-  qh.parse_phi(op::OR);
+  qh.parse_phi(expr_op::OR);
  }
 #line 725 "qultl.tab.cc" // lalr1.cc:859
     break;
@@ -733,7 +733,7 @@ namespace yy {
   case 17:
 #line 135 "qultl.y" // lalr1.cc:859
     {
-  qh.parse_phi(op::AND);
+  qh.parse_phi(expr_op::AND);
  }
 #line 739 "qultl.tab.cc" // lalr1.cc:859
     break;
@@ -747,7 +747,7 @@ namespace yy {
   case 19:
 #line 141 "qultl.y" // lalr1.cc:859
     {
-  qh.parse_phi(op::NEGATION);
+  qh.parse_phi(expr_op::NEGATION);
  }
 #line 753 "qultl.tab.cc" // lalr1.cc:859
     break;
@@ -755,7 +755,7 @@ namespace yy {
   case 20:
 #line 146 "qultl.y" // lalr1.cc:859
     {
-  qh.parse_phi(op::PARENTHSIS);
+  qh.parse_phi(expr_op::PARENTHSIS);
  }
 #line 761 "qultl.tab.cc" // lalr1.cc:859
     break;
@@ -763,7 +763,7 @@ namespace yy {
   case 21:
 #line 149 "qultl.y" // lalr1.cc:859
     {
-  qh.parse_phi(op::CONST_T);
+  qh.parse_phi(expr_op::CONST_T);
   }
 #line 769 "qultl.tab.cc" // lalr1.cc:859
     break;
@@ -771,7 +771,7 @@ namespace yy {
   case 22:
 #line 152 "qultl.y" // lalr1.cc:859
     {
-  qh.parse_phi(op::CONST_F);
+  qh.parse_phi(expr_op::CONST_F);
   }
 #line 777 "qultl.tab.cc" // lalr1.cc:859
     break;
@@ -785,7 +785,7 @@ namespace yy {
   case 24:
 #line 158 "qultl.y" // lalr1.cc:859
     {
-  qh.parse_phi(op::EQUAL);
+  qh.parse_phi(expr_op::EQUAL);
 }
 #line 791 "qultl.tab.cc" // lalr1.cc:859
     break;
@@ -793,7 +793,7 @@ namespace yy {
   case 25:
 #line 161 "qultl.y" // lalr1.cc:859
     {
-  qh.parse_phi(op::NOT_EQUAL);
+  qh.parse_phi(expr_op::NOT_EQUAL);
 }
 #line 799 "qultl.tab.cc" // lalr1.cc:859
     break;
@@ -801,7 +801,7 @@ namespace yy {
   case 26:
 #line 164 "qultl.y" // lalr1.cc:859
     {
-  qh.parse_phi(op::LESS_THAN);
+  qh.parse_phi(expr_op::LESS_THAN);
 }
 #line 807 "qultl.tab.cc" // lalr1.cc:859
     break;
@@ -809,7 +809,7 @@ namespace yy {
   case 27:
 #line 167 "qultl.y" // lalr1.cc:859
     {
-  qh.parse_phi(op::GREATER_THAN);
+  qh.parse_phi(expr_op::GREATER_THAN);
 }
 #line 815 "qultl.tab.cc" // lalr1.cc:859
     break;
@@ -817,7 +817,7 @@ namespace yy {
   case 28:
 #line 170 "qultl.y" // lalr1.cc:859
     {
-  qh.parse_phi(op::LESS_THAN_EQ);
+  qh.parse_phi(expr_op::LESS_THAN_EQ);
 }
 #line 823 "qultl.tab.cc" // lalr1.cc:859
     break;
@@ -825,7 +825,7 @@ namespace yy {
   case 29:
 #line 173 "qultl.y" // lalr1.cc:859
     {
-  qh.parse_phi(op::GREATER_THAN_EQ);
+  qh.parse_phi(expr_op::GREATER_THAN_EQ);
 }
 #line 831 "qultl.tab.cc" // lalr1.cc:859
     break;
@@ -839,7 +839,7 @@ namespace yy {
   case 31:
 #line 179 "qultl.y" // lalr1.cc:859
     {
-  qh.parse_phi(op::MULTIPLICATION);
+  qh.parse_phi(expr_op::MULTIPLICATION);
  }
 #line 845 "qultl.tab.cc" // lalr1.cc:859
     break;
@@ -853,7 +853,7 @@ namespace yy {
   case 33:
 #line 185 "qultl.y" // lalr1.cc:859
     {
-  qh.parse_phi(op::ADDITION);
+  qh.parse_phi(expr_op::ADDITION);
  }
 #line 859 "qultl.tab.cc" // lalr1.cc:859
     break;
@@ -867,7 +867,7 @@ namespace yy {
   case 35:
 #line 191 "qultl.y" // lalr1.cc:859
     {
-  qh.parse_phi(op::SUBTRACTION);
+  qh.parse_phi(expr_op::SUBTRACTION);
  }
 #line 873 "qultl.tab.cc" // lalr1.cc:859
     break;
@@ -875,7 +875,7 @@ namespace yy {
   case 36:
 #line 196 "qultl.y" // lalr1.cc:859
     {
-  qh.parse_phi(op::PARENTHSIS);
+  qh.parse_phi(expr_op::PARENTHSIS);
 }
 #line 881 "qultl.tab.cc" // lalr1.cc:859
     break;
@@ -883,7 +883,7 @@ namespace yy {
   case 37:
 #line 199 "qultl.y" // lalr1.cc:859
     {
-  qh.parse_phi(op::COUNT);
+  qh.parse_phi(expr_op::COUNT);
 }
 #line 889 "qultl.tab.cc" // lalr1.cc:859
     break;
@@ -891,7 +891,7 @@ namespace yy {
   case 38:
 #line 202 "qultl.y" // lalr1.cc:859
     {
-  qh.parse_phi(op::SIZE);
+  qh.parse_phi(expr_op::SIZE);
 }
 #line 897 "qultl.tab.cc" // lalr1.cc:859
     break;
