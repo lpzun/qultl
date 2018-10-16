@@ -1,2 +1,2 @@
 //true -> (#a < 3);
-#WAIT + #PING < #DONE;
+G(#WAIT + #PING < #DONE);

@@ -1,4 +1,4 @@
-/*
+/**
  * parser.hh
  *
  * @date  : Oct 11, 2018
@@ -15,19 +15,6 @@ extern FILE *yyin;
 
 namespace qultl {
 
-class qultl_parser {
-public:
-	qultl_parser(const string& filename, const alphabet& _E);
-	~qultl_parser();
-
-	const formula& get_phi() const {
-		return phi;
-	}
-
-private:
-	formula phi;
-};
-
 class queue_parser {
 public:
 	static deque<string> parse_intput_queue(const string& filename);
@@ -40,6 +27,23 @@ private:
 	static bool getline(istream& in, string& line, const char eol = '\n');
 
 	static deque<string> split(const string &s, const char delim);
+};
+
+///////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////
+
+class qultl_parser {
+public:
+	qultl_parser(const string& filename, const alphabet& _E);
+	~qultl_parser();
+
+	const formula& get_phi() const {
+		return phi;
+	}
+
+private:
+	formula phi;
 };
 
 } /* namespace qultl */

@@ -1,4 +1,4 @@
-/*
+/**
  * parser.cc
  *
  * @date  : Oct 11, 2018
@@ -8,30 +8,6 @@
 #include "parser.hh"
 
 namespace qultl {
-
-qultl_parser::qultl_parser(const string& filename, const alphabet& _E) :
-		phi() {
-	FILE *ltl_file = fopen(filename.c_str(), "r");
-	if (!ltl_file)
-		throw runtime_error(filename + " open failed!");
-
-	cout << "start parsing QuLTL ...\n";
-	yyin = ltl_file;
-	qultl_helper qh;
-
-	yy::qultl parser(qh);
-	int result = parser.parse();
-	if (result != 0)
-		throw runtime_error(
-				"Parser exit with error code: " + std::to_string(result));
-	cout << "phi := ";
-	qh.print();
-	phi = qh.get_phi();
-}
-
-qultl_parser::~qultl_parser() {
-
-}
 
 alphabet queue_parser::E;
 /**
@@ -131,6 +107,33 @@ deque<string> queue_parser::split(const string &s, const char delim) {
 		elems.emplace_back(item);
 	}
 	return elems;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////
+qultl_parser::qultl_parser(const string& filename, const alphabet& _E) :
+		phi() {
+	FILE *ltl_file = fopen(filename.c_str(), "r");
+	if (!ltl_file)
+		throw runtime_error(filename + " open failed!");
+
+	cout << "start parsing QuLTL ...\n";
+	yyin = ltl_file;
+	qultl_helper qh(queue_parser::E);
+
+	yy::qultl parser(qh);
+	int result = parser.parse();
+	if (result != 0)
+		throw runtime_error(
+				"Parser exit with error code: " + std::to_string(result));
+	cout << "phi := ";
+	qh.print();
+	phi = qh.get_phi();
+}
+
+qultl_parser::~qultl_parser() {
+
 }
 
 } /* namespace qultl */

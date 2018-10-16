@@ -9,8 +9,8 @@
 
 namespace qultl {
 
-ostream& operator<<(ostream& os, const expr_op& o) {
-	switch (o) {
+ostream& operator<<(ostream& os, const expr_op& op) {
+	switch (op) {
 	case expr_op::TMP_F:
 		os << 'F';
 		break;
@@ -19,6 +19,9 @@ ostream& operator<<(ostream& os, const expr_op& o) {
 		break;
 	case expr_op::TMP_X:
 		os << 'X';
+		break;
+	case expr_op::TMP_U:
+		os << 'U';
 		break;
 	case expr_op::COUNT:
 		os << '#';
@@ -63,10 +66,10 @@ ostream& operator<<(ostream& os, const expr_op& o) {
 		os << '+';
 		break;
 	case expr_op::SUBTRACTION:
-		os << '+';
+		os << '-';
 		break;
 	case expr_op::MULTIPLICATION:
-		os << '+';
+		os << '*';
 		break;
 	case expr_op::PARENTHSIS:
 		os << "()";
@@ -110,8 +113,8 @@ ostream& operator<<(ostream& os, const expr_comp& e) {
 	return os;
 }
 
-qultl_helper::qultl_helper() :
-		phi(), _E() {
+qultl_helper::qultl_helper(const alphabet& E) :
+		phi(), _E(E) {
 }
 
 qultl_helper::~qultl_helper() {
@@ -121,8 +124,12 @@ qultl_helper::~qultl_helper() {
 void qultl_helper::parse_phi(const expr_op& op) {
 	phi.emplace_back(type_expr_comp::OPERATOR, op);
 }
-
+///////////////////////////////////////////////////////////////////////////////
+///
+///////////////////////////////////////////////////////////////////////////////
 void qultl_helper::parse_phi(const string& var) {
+	if (!is_legal_alpha(var))
+		throw runtime_error("Illegal message in LTL formula!");
 	phi.emplace_back(type_expr_comp::VARIABLE, var);
 }
 
@@ -130,12 +137,12 @@ void qultl_helper::parse_phi(const nat val) {
 	phi.emplace_back(type_expr_comp::CONSTANT, val);
 }
 
-bool qultl_helper::syntax_check(const string& qexpr) {
+bool qultl_helper::syntax_check(const alpha& var) {
 	return false;
 }
 
-bool qultl_helper::is_legal_alpha(const string& alpha) {
-	return _E.find(alpha) != _E.end();
+bool qultl_helper::is_legal_alpha(const alpha& var) {
+	return _E.find(var) != _E.end();
 }
 
 void qultl_helper::print() {

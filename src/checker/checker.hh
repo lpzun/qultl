@@ -26,6 +26,10 @@ private:
 
 	string recover_phi();
 	void recover(const expr_op& op, stack<string>& worklist);
+	void recover_binary(const string& op, stack<string>& worklist);
+	void recover_unary(const string& op, stack<string>& worklist);
+
+
 	bool eval_F();
 	int eval_counting(const alpha& a);
 };
