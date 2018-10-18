@@ -57,6 +57,12 @@
 "|"	     { return token::T_OR; }
 "->"	     { return token::T_IMPLICATION; }
 
+"~"	     { return token::T_TMP_NEGATION; }
+"&&"	     { return token::T_TMP_AND; }
+"||"	     { return token::T_TMP_OR; }
+"=>"	     { return token::T_TMP_IMPLICATION; }
+"<>"	     { return token::T_TMP_EQUIVALENCE; }
+
 "="			 { return token::T_EQUAL; }
 "!="			 { return token::T_NOT_EQUAL; }
 "<"			 { return token::T_LESS_THAN; }

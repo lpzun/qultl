@@ -19,7 +19,7 @@
 
 %code requires
 {
-# include "helper.hh"
+# include "qultl_expr.hh"
   using namespace qultl;
 }
 
@@ -51,7 +51,14 @@
 %token T_NEGATION "!"	     
 %token T_AND "&"	     
 %token T_OR "|"	     
-%token T_IMPLICATION "->"	     
+%token T_IMPLICATION "->"  
+ /*%token T_EQUIVALENCE "<->"*/
+
+%token T_TMP_NEGATION "~"	     
+%token T_TMP_AND "&&"	     
+%token T_TMP_OR "||"	     
+%token T_TMP_IMPLICATION "=>"  
+%token T_TMP_EQUIVALENCE "<>"	
 
 %token T_EQUAL "="			
 %token T_NOT_EQUAL "!="			 
@@ -71,10 +78,10 @@
 %token <t_str> T_IDEN
 %token <t_sep> T_DELIM
 
-%type <t_str> phi literal msg // value
+%type <t_str> ltl bin_ltl or_ltl and_ltl neg_ltl prm_ltl temporal_ltl literal msg // value
 %type <t_val> constant //
 
-%start phi
+%start ltl
 %{
   extern int yylex(yy::qultl::semantic_type *yylval, yy::qultl::location_type* yylloc);
 %}
@@ -89,34 +96,64 @@
  * ** bison rules for QuLTL parser
  ******************************************************************************/
 %%
-phi: bin_phi ';' {}
+ltl: bin_ltl ';' { }
 ;
 
-bin_phi: una_phi {}
-| bin_phi T_QuLTL_U una_phi {
+bin_ltl: or_ltl { }
+| bin_ltl T_TMP_IMPLICATION or_ltl {
+  qh.parse_phi(expr_op::IMPLICATION);
+ }
+/* | bin_ltl T_TMP_EQUIVALENCE or_ltl { */
+/*   qh.parse_phi(expr_op::EQUIVALENCE); */
+/*  } */
+;
+
+or_ltl: and_ltl { }
+| or_ltl T_TMP_OR and_ltl {
+  qh.parse_phi(expr_op::OR);
+ }
+;
+
+and_ltl: neg_ltl { }
+| and_ltl T_TMP_AND neg_ltl {
+  qh.parse_phi(expr_op::AND);
+ }
+;
+
+neg_ltl: prm_ltl { }
+| T_TMP_NEGATION prm_ltl {
+  qh.parse_phi(expr_op::NEGATION);
+ }
+;
+
+prm_ltl: '(' ltl ')' {
+  qh.parse_phi(expr_op::PARENTHSIS);  
+ }
+| temporal_ltl { }
+;
+
+temporal_ltl: una_temporal_ltl {}
+| temporal_ltl T_QuLTL_U una_temporal_ltl {
   qh.parse_phi(expr_op::TMP_U);
  }
 ;
 
-una_phi: prm_phi {}
-| T_QuLTL_F una_phi {
+una_temporal_ltl: prm_temporal_ltl {}
+| T_QuLTL_F una_temporal_ltl {
   qh.parse_phi(expr_op::TMP_F);
-}
-| T_QuLTL_G una_phi {
-   qh.parse_phi(expr_op::TMP_G);
-}
-| T_QuLTL_X una_phi {
-   qh.parse_phi(expr_op::TMP_X);
-}
+ }
+| T_QuLTL_G una_temporal_ltl {
+  qh.parse_phi(expr_op::TMP_G);
+ }
+| T_QuLTL_X una_temporal_ltl {
+  qh.parse_phi(expr_op::TMP_X);
+ }
 ;
 
-prm_phi: '(' phi ')' {
-  qh.parse_phi(expr_op::PARENTHSIS);
- }
-| msg {
-}
+prm_temporal_ltl: msg {
+  }
 | expr {
-}
+  }
 ;
 
 expr: or_expr {}
@@ -138,7 +175,7 @@ and_expr: una_expr {}
 ;
 
 una_expr: prm_expr {}
-| T_NEGATION prm_expr {
+| T_NEGATION una_expr {
   qh.parse_phi(expr_op::NEGATION);
  }
 ;
@@ -147,32 +184,32 @@ prm_expr: '(' expr ')' {
   qh.parse_phi(expr_op::PARENTHSIS);
  }
 | T_CONST_TRUE {
-  qh.parse_phi(expr_op::CONST_T);
+  qh.parse_phi(1);
   }
 | T_CONST_FALSE {
-  qh.parse_phi(expr_op::CONST_F);
+  qh.parse_phi(1);
   }
 | literal {}
 ;
 
 literal: qula_expr T_EQUAL qula_expr {
   qh.parse_phi(expr_op::EQUAL);
-}
+ }
 | qula_expr T_NOT_EQUAL qula_expr {
   qh.parse_phi(expr_op::NOT_EQUAL);
-}
+ }
 | qula_expr T_LESS_THAN qula_expr {
   qh.parse_phi(expr_op::LESS_THAN);
-}
+ }
 | qula_expr T_GREATER_THAN qula_expr {
   qh.parse_phi(expr_op::GREATER_THAN);
-}
+ }
 | qula_expr T_LESS_THAN_OR_EQU qula_expr {
   qh.parse_phi(expr_op::LESS_THAN_EQ);
-}
+ }
 | qula_expr T_GREATER_THAN_OR_EQU qula_expr {
   qh.parse_phi(expr_op::GREATER_THAN_EQ);
-}
+ }
 ;
 
 qula_expr: qula_add_expr {}
@@ -195,20 +232,20 @@ qula_sub_expr: qula_prm_expr {}
 
 qula_prm_expr: '(' qula_expr ')' {
   qh.parse_phi(expr_op::PARENTHSIS);
-}
+ }
 | T_COUNTING msg {
   qh.parse_phi(expr_op::COUNT);
-}
+ }
 | '[' ']' {
   qh.parse_phi(expr_op::SIZE);
-}
+  }
 | constant { }
 ;
 
 msg: T_IDEN {
   qh.parse_phi($1);
   free($1);
-}
+ }
 ;
 
 constant: T_NAT {

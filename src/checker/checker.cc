@@ -327,13 +327,13 @@ void checker::recover(const expr_op& op, stack<string>& worklist) {
 		recover_binary("&", worklist);
 		break;
 	case expr_op::OR:
-		recover_binary("!", worklist);
+		recover_binary("|", worklist);
 		break;
 	case expr_op::IMPLICATION:
 		recover_binary("->", worklist);
 		break;
 	case expr_op::EQUIVALENCE:
-		recover_binary("<->", worklist);
+		recover_binary("<>", worklist);
 		break;
 	case expr_op::EQUAL:
 		recover_binary("=", worklist);
@@ -384,7 +384,7 @@ void checker::recover_binary(const string& op, stack<string>& worklist) {
 	worklist.pop();
 	string lhs = worklist.top();
 	worklist.pop();
-	worklist.emplace(lhs + op + rhs);
+	worklist.emplace(lhs + " " + op + " " + rhs);
 }
 
 /**
@@ -395,6 +395,6 @@ void checker::recover_binary(const string& op, stack<string>& worklist) {
 void checker::recover_unary(const string& op, stack<string>& worklist) {
 	string lhs = worklist.top();
 	worklist.pop();
-	worklist.emplace(op + lhs);
+	worklist.emplace(op + " " + lhs);
 }
 } /* namespace qultl */

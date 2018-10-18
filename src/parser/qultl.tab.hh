@@ -42,7 +42,7 @@
 // //                    "%code requires" blocks.
 #line 21 "qultl.y" // lalr1.cc:392
 
-#include <qultl_expr.hh>
+# include "qultl_expr.hh"
   using namespace qultl;
 
 #line 49 "qultl.tab.hh" // lalr1.cc:392
@@ -168,19 +168,24 @@ namespace yy {
         T_AND = 266,
         T_OR = 267,
         T_IMPLICATION = 268,
-        T_EQUAL = 269,
-        T_NOT_EQUAL = 270,
-        T_LESS_THAN = 271,
-        T_GREATER_THAN = 272,
-        T_LESS_THAN_OR_EQU = 273,
-        T_GREATER_THAN_OR_EQU = 274,
-        T_COUNTING = 275,
-        T_CONST_TRUE = 276,
-        T_CONST_FALSE = 277,
-        T_END = 278,
-        T_NAT = 279,
-        T_IDEN = 280,
-        T_DELIM = 281
+        T_TMP_NEGATION = 269,
+        T_TMP_AND = 270,
+        T_TMP_OR = 271,
+        T_TMP_IMPLICATION = 272,
+        T_TMP_EQUIVALENCE = 273,
+        T_EQUAL = 274,
+        T_NOT_EQUAL = 275,
+        T_LESS_THAN = 276,
+        T_GREATER_THAN = 277,
+        T_LESS_THAN_OR_EQU = 278,
+        T_GREATER_THAN_OR_EQU = 279,
+        T_COUNTING = 280,
+        T_CONST_TRUE = 281,
+        T_CONST_FALSE = 282,
+        T_END = 283,
+        T_NAT = 284,
+        T_IDEN = 285,
+        T_DELIM = 286
       };
     };
 
@@ -488,12 +493,12 @@ namespace yy {
     enum
     {
       yyeof_ = 0,
-      yylast_ = 91,     ///< Last index in yytable_.
-      yynnts_ = 17,  ///< Number of nonterminal symbols.
-      yyfinal_ = 38, ///< Termination state number.
+      yylast_ = 125,     ///< Last index in yytable_.
+      yynnts_ = 22,  ///< Number of nonterminal symbols.
+      yyfinal_ = 45, ///< Termination state number.
       yyterror_ = 1,
       yyerrcode_ = 256,
-      yyntokens_ = 32  ///< Number of tokens.
+      yyntokens_ = 37  ///< Number of tokens.
     };
 
 
@@ -504,7 +509,7 @@ namespace yy {
 
 
 } // yy
-#line 508 "qultl.tab.hh" // lalr1.cc:392
+#line 513 "qultl.tab.hh" // lalr1.cc:392
 
 
 
