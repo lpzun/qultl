@@ -179,7 +179,7 @@ namespace yy {
 
 
   /// Build a parser object.
-  qultl::qultl (qultl_helper &qh_yyarg)
+  qultl::qultl (qultl_expr &qh_yyarg)
     :
 #if YYDEBUG
       yydebug_ (false),

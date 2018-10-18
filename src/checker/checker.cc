@@ -42,6 +42,41 @@ bool checker::check(const deque<alpha>& Q) {
  * @return
  */
 bool checker::eval(const deque<alpha>& Q) {
+	auto lhs = _phi.begin();
+	auto rhs = _phi.begin();
+	stack<nat> result;
+	while (rhs < _phi.end()) {
+		if (rhs->get_type() == type_expr_cpnt::OPERATOR) {
+			switch (rhs->get_op()) {
+			case expr_op::TMP_G: {
+
+			}
+				break;
+			case expr_op::TMP_X: {
+
+			}
+				break;
+			case expr_op::TMP_F: {
+
+			}
+				break;
+			case expr_op::TMP_U: {
+
+			}
+				break;
+			default: {
+
+			}
+				break;
+			}
+		}
+		++rhs;
+	}
+
+	if (lhs != _phi.end()) {
+
+	}
+
 	for (int i = 0; i < _phi.size(); ++i) {
 		if (_phi[i].get_type() == type_expr_cpnt::OPERATOR) {
 			switch (_phi[i].get_op()) {
@@ -129,7 +164,8 @@ void checker::eval(const expr_op& op, stack<nat>& worklist) {
 	case expr_op::TMP_X:
 	case expr_op::TMP_U:
 	case expr_op::COUNT:
-		cout << op << " should not appears here\n";
+		cout << op;
+		throw runtime_error(" should not appears here\n");
 		break;
 	case expr_op::SIZE:
 		worklist.push(size_Q);

@@ -5,8 +5,8 @@
  * @author: lpzun
  */
 
-#ifndef PARSER_HELPER_HH_
-#define PARSER_HELPER_HH_
+#ifndef PARSER_QULTL_EXPR_HH_
+#define PARSER_QULTL_EXPR_HH_
 
 #include "head.hh"
 
@@ -109,10 +109,10 @@ using formula = deque<expr_cpnt>;
  *
  * It stores the parsed result.
  */
-class qultl_helper {
+class qultl_expr {
 public:
-	qultl_helper(const alphabet& E);
-	~qultl_helper();
+	qultl_expr(const alphabet& E);
+	~qultl_expr();
 
 	void parse_phi(const string& var);
 	void parse_phi(const expr_op& op);
@@ -133,4 +133,4 @@ private:
 
 } /* namespace qultl */
 
-#endif /* PARSER_HELPER_HH_ */
+#endif /* PARSER_QULTL_EXPR_HH_ */

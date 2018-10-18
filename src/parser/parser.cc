@@ -120,7 +120,7 @@ qultl_parser::qultl_parser(const string& filename, const alphabet& _E) :
 
 	cout << "start parsing QuLTL ...\n";
 	yyin = ltl_file;
-	qultl_helper qh(queue_parser::E);
+	qultl_expr qh(queue_parser::E);
 
 	yy::qultl parser(qh);
 	int result = parser.parse();

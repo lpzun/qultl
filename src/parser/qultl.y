@@ -24,7 +24,7 @@
 }
 
  // tell Bison that yyparse should take an extra parameter paide
-%parse-param { qultl_helper &qh }
+%parse-param { qultl_expr &qh }
 
 %define parser_class_name {qultl} // define the parser's name
 %{

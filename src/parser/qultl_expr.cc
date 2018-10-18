@@ -5,7 +5,7 @@
  * @author: lpzun
  */
 
-#include <helper.hh>
+#include <qultl_expr.hh>
 
 namespace qultl {
 
@@ -113,39 +113,39 @@ ostream& operator<<(ostream& os, const expr_cpnt& e) {
 	return os;
 }
 
-qultl_helper::qultl_helper(const alphabet& E) :
+qultl_expr::qultl_expr(const alphabet& E) :
 		phi(), _E(E) {
 }
 
-qultl_helper::~qultl_helper() {
+qultl_expr::~qultl_expr() {
 
 }
 
-void qultl_helper::parse_phi(const expr_op& op) {
+void qultl_expr::parse_phi(const expr_op& op) {
 	phi.emplace_back(type_expr_cpnt::OPERATOR, op);
 }
 ///////////////////////////////////////////////////////////////////////////////
 ///
 ///////////////////////////////////////////////////////////////////////////////
-void qultl_helper::parse_phi(const string& var) {
+void qultl_expr::parse_phi(const string& var) {
 	if (!is_legal_alpha(var))
 		throw runtime_error("Illegal message in LTL formula!");
 	phi.emplace_back(type_expr_cpnt::VARIABLE, var);
 }
 
-void qultl_helper::parse_phi(const nat val) {
+void qultl_expr::parse_phi(const nat val) {
 	phi.emplace_back(type_expr_cpnt::CONSTANT, val);
 }
 
-bool qultl_helper::syntax_check(const alpha& var) {
+bool qultl_expr::syntax_check(const alpha& var) {
 	return false;
 }
 
-bool qultl_helper::is_legal_alpha(const alpha& var) {
+bool qultl_expr::is_legal_alpha(const alpha& var) {
 	return _E.find(var) != _E.end();
 }
 
-void qultl_helper::print() {
+void qultl_expr::print() {
 	for (const auto& e : phi)
 		cout << e << " ";
 }

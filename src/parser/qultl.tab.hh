@@ -42,7 +42,7 @@
 // //                    "%code requires" blocks.
 #line 21 "qultl.y" // lalr1.cc:392
 
-# include "helper.hh"
+#include <qultl_expr.hh>
   using namespace qultl;
 
 #line 49 "qultl.tab.hh" // lalr1.cc:392
@@ -285,7 +285,7 @@ namespace yy {
 
 
     /// Build a parser object.
-    qultl (qultl_helper &qh_yyarg);
+    qultl (qultl_expr &qh_yyarg);
     virtual ~qultl ();
 
     /// Parse.
@@ -498,7 +498,7 @@ namespace yy {
 
 
     // User arguments.
-    qultl_helper &qh;
+    qultl_expr &qh;
   };
 
 

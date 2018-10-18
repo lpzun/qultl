@@ -25,12 +25,9 @@ private:
 	nat size_Q;
 	bool eval(const deque<string>& Q);
 
-	string recover_phi(const formula& phi);
-	void recover(const expr_op& op, stack<string>& worklist);
-	void recover_binary(const string& op, stack<string>& worklist);
-	void recover_unary(const string& op, stack<string>& worklist);
-
 	bool eval(const deque<alpha>& Q, const formula& phi);
+
+
 	void eval(const expr_op& op, stack<nat>& worklist);
 	void eval_binary(const string& op, stack<nat>& worklist);
 	void eval_unary(const string& op, stack<nat>& worklist);
@@ -40,6 +37,12 @@ private:
 	bool eval_U(const deque<alpha>& Q, const formula& phi);
 	nat eval_neg(nat v);
 	int eval_counting(const alpha& a);
+
+	/// Recover expression from parsing results
+	string recover_phi(const formula& phi);
+	void recover(const expr_op& op, stack<string>& worklist);
+	void recover_binary(const string& op, stack<string>& worklist);
+	void recover_unary(const string& op, stack<string>& worklist);
 };
 
 } /* namespace qultl */
