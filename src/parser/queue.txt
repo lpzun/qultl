@@ -1,4 +1,4 @@
 // alphabet
 E := WAIT,PING,DONE
 // queue content
-Q := WAIT,WAIT,WAIT,WAIT
+Q := WAIT,WAIT,PING,DONE

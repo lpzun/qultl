@@ -81,29 +81,29 @@ ostream& operator<<(ostream& os, const expr_op& op) {
 	return os;
 }
 
-expr_comp::expr_comp(const type_expr_comp& type, const expr_op& op) :
+expr_cpnt::expr_cpnt(const type_expr_cpnt& type, const expr_op& op) :
 		_type(type), _op(op), _val(), _var() {
 
 }
-expr_comp::expr_comp(const type_expr_comp& type, const nat val) :
+expr_cpnt::expr_cpnt(const type_expr_cpnt& type, const nat val) :
 		_type(type), _op(), _val(val), _var() {
 
 }
-expr_comp::expr_comp(const type_expr_comp& type, const alpha& var) :
+expr_cpnt::expr_cpnt(const type_expr_cpnt& type, const alpha& var) :
 		_type(type), _op(), _val(), _var(var) {
 
 }
 
-expr_comp::~expr_comp() {
+expr_cpnt::~expr_cpnt() {
 
 }
 
-ostream& operator<<(ostream& os, const expr_comp& e) {
+ostream& operator<<(ostream& os, const expr_cpnt& e) {
 	switch (e.get_type()) {
-	case type_expr_comp::OPERATOR:
+	case type_expr_cpnt::OPERATOR:
 		os << e.get_op();
 		break;
-	case type_expr_comp::CONSTANT:
+	case type_expr_cpnt::CONSTANT:
 		os << e.get_val();
 		break;
 	default:
@@ -122,7 +122,7 @@ qultl_helper::~qultl_helper() {
 }
 
 void qultl_helper::parse_phi(const expr_op& op) {
-	phi.emplace_back(type_expr_comp::OPERATOR, op);
+	phi.emplace_back(type_expr_cpnt::OPERATOR, op);
 }
 ///////////////////////////////////////////////////////////////////////////////
 ///
@@ -130,11 +130,11 @@ void qultl_helper::parse_phi(const expr_op& op) {
 void qultl_helper::parse_phi(const string& var) {
 	if (!is_legal_alpha(var))
 		throw runtime_error("Illegal message in LTL formula!");
-	phi.emplace_back(type_expr_comp::VARIABLE, var);
+	phi.emplace_back(type_expr_cpnt::VARIABLE, var);
 }
 
 void qultl_helper::parse_phi(const nat val) {
-	phi.emplace_back(type_expr_comp::CONSTANT, val);
+	phi.emplace_back(type_expr_cpnt::CONSTANT, val);
 }
 
 bool qultl_helper::syntax_check(const alpha& var) {

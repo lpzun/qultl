@@ -74,7 +74,7 @@ int main(const int argc, const char * const * const argv) {
 		if (phi == "X")
 			throw runtime_error("Please specify a qultl file!");
 
-		cout << file << endl;
+		cout << "Start parsing queue ..." << endl;
 
 		const auto& Q = queue_parser::parse_intput_queue(file);
 

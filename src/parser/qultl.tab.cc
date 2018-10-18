@@ -914,7 +914,7 @@ namespace yy {
   case 41:
 #line 214 "qultl.y" // lalr1.cc:859
     {
-  qh.parse_phi(std::to_string((yystack_[0].value.t_val)));
+  qh.parse_phi((yystack_[0].value.t_val));
  }
 #line 920 "qultl.tab.cc" // lalr1.cc:859
     break;

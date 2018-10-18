@@ -212,7 +212,7 @@ msg: T_IDEN {
 ;
 
 constant: T_NAT {
-  qh.parse_phi(std::to_string($1));
+  qh.parse_phi($1);
  }
 ;
 

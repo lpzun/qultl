@@ -50,7 +50,7 @@ ostream& operator<<(ostream& os, const expr_op& o);
 /**
  * types of expression components
  */
-enum class type_expr_comp {
+enum class type_expr_cpnt {
 	OPERATOR, //!< OPERATOR
 	VARIABLE, //!< VARIABLE
 	CONSTANT //!< CONSTANT
@@ -67,18 +67,21 @@ using alpha = string;
 
 using alphabet = unordered_set<alpha>;
 
-class expr_comp {
+/**
+ * expression components
+ */
+class expr_cpnt {
 public:
-	expr_comp(const type_expr_comp& type, const expr_op& op);
-	expr_comp(const type_expr_comp& type, const nat v);
-	expr_comp(const type_expr_comp& type, const alpha& a);
-	~expr_comp();
+	expr_cpnt(const type_expr_cpnt& type, const expr_op& op);
+	expr_cpnt(const type_expr_cpnt& type, const nat v);
+	expr_cpnt(const type_expr_cpnt& type, const alpha& a);
+	~expr_cpnt();
 
 	expr_op get_op() const {
 		return _op;
 	}
 
-	type_expr_comp get_type() const {
+	type_expr_cpnt get_type() const {
 		return _type;
 	}
 
@@ -90,16 +93,16 @@ public:
 		return _var;
 	}
 
-	friend ostream& operator<<(ostream& os, const expr_comp& e);
+	friend ostream& operator<<(ostream& os, const expr_cpnt& e);
 private:
-	type_expr_comp _type;
+	type_expr_cpnt _type;
 	expr_op _op;
 	nat _val;
 	alpha _var;
 };
 
 /// formula
-using formula = deque<expr_comp>;
+using formula = deque<expr_cpnt>;
 
 /**
  * A helper class for qultl helper.
