@@ -8,4 +8,8 @@
 //G (WAIT => G PING);
 //WAIT => G PING;
 //( WAIT => G PING );
-WAIT => G((#DONE >= 1) & (#WAIT > 0));
+//WAIT => G((#DONE >= 1) & (#WAIT > 0));
+//G (WAIT => G(~PING));
+//G (WAIT => G(~PING));
+//G (WAIT => G ~PING);
+G X WAIT;

@@ -637,21 +637,21 @@ namespace yy {
     break;
 
   case 4:
-#line 103 "qultl.y" // lalr1.cc:859
-    {
-  qh.parse_phi(expr_op::IMPLICATION);
- }
-#line 645 "qultl.tab.cc" // lalr1.cc:859
+#line 105 "qultl.y" // lalr1.cc:859
+    { }
+#line 643 "qultl.tab.cc" // lalr1.cc:859
     break;
 
   case 5:
-#line 111 "qultl.y" // lalr1.cc:859
-    { }
+#line 106 "qultl.y" // lalr1.cc:859
+    {
+  qh.parse_phi(expr_op::AND);
+ }
 #line 651 "qultl.tab.cc" // lalr1.cc:859
     break;
 
   case 6:
-#line 112 "qultl.y" // lalr1.cc:859
+#line 109 "qultl.y" // lalr1.cc:859
     {
   qh.parse_phi(expr_op::OR);
  }
@@ -659,330 +659,320 @@ namespace yy {
     break;
 
   case 7:
-#line 117 "qultl.y" // lalr1.cc:859
-    { }
-#line 665 "qultl.tab.cc" // lalr1.cc:859
+#line 112 "qultl.y" // lalr1.cc:859
+    {
+  qh.parse_phi(expr_op::IMPLICATION);
+ }
+#line 667 "qultl.tab.cc" // lalr1.cc:859
     break;
 
   case 8:
-#line 118 "qultl.y" // lalr1.cc:859
+#line 115 "qultl.y" // lalr1.cc:859
     {
-  qh.parse_phi(expr_op::AND);
+  qh.parse_phi(expr_op::EQUIVALENCE);
  }
-#line 673 "qultl.tab.cc" // lalr1.cc:859
+#line 675 "qultl.tab.cc" // lalr1.cc:859
     break;
 
   case 9:
-#line 123 "qultl.y" // lalr1.cc:859
-    { }
-#line 679 "qultl.tab.cc" // lalr1.cc:859
-    break;
-
-  case 10:
-#line 124 "qultl.y" // lalr1.cc:859
-    {
-  qh.parse_phi(expr_op::NEGATION);
- }
-#line 687 "qultl.tab.cc" // lalr1.cc:859
-    break;
-
-  case 11:
-#line 129 "qultl.y" // lalr1.cc:859
-    {
-  qh.parse_phi(expr_op::PARENTHSIS);  
- }
-#line 695 "qultl.tab.cc" // lalr1.cc:859
-    break;
-
-  case 12:
-#line 132 "qultl.y" // lalr1.cc:859
-    { }
-#line 701 "qultl.tab.cc" // lalr1.cc:859
-    break;
-
-  case 13:
-#line 135 "qultl.y" // lalr1.cc:859
-    {}
-#line 707 "qultl.tab.cc" // lalr1.cc:859
-    break;
-
-  case 14:
-#line 136 "qultl.y" // lalr1.cc:859
+#line 118 "qultl.y" // lalr1.cc:859
     {
   qh.parse_phi(expr_op::TMP_U);
  }
-#line 715 "qultl.tab.cc" // lalr1.cc:859
+#line 683 "qultl.tab.cc" // lalr1.cc:859
     break;
 
-  case 15:
-#line 141 "qultl.y" // lalr1.cc:859
-    {}
+  case 10:
+#line 123 "qultl.y" // lalr1.cc:859
+    { }
+#line 689 "qultl.tab.cc" // lalr1.cc:859
+    break;
+
+  case 11:
+#line 124 "qultl.y" // lalr1.cc:859
+    {
+  qh.parse_phi(expr_op::TMP_F);
+ }
+#line 697 "qultl.tab.cc" // lalr1.cc:859
+    break;
+
+  case 12:
+#line 127 "qultl.y" // lalr1.cc:859
+    {
+  qh.parse_phi(expr_op::TMP_G);
+ }
+#line 705 "qultl.tab.cc" // lalr1.cc:859
+    break;
+
+  case 13:
+#line 130 "qultl.y" // lalr1.cc:859
+    {
+  qh.parse_phi(expr_op::TMP_X);
+ }
+#line 713 "qultl.tab.cc" // lalr1.cc:859
+    break;
+
+  case 14:
+#line 133 "qultl.y" // lalr1.cc:859
+    {
+  qh.parse_phi(expr_op::NEGATION);
+ }
 #line 721 "qultl.tab.cc" // lalr1.cc:859
     break;
 
-  case 16:
-#line 142 "qultl.y" // lalr1.cc:859
+  case 15:
+#line 138 "qultl.y" // lalr1.cc:859
     {
-  qh.parse_phi(expr_op::TMP_F);
+  qh.parse_phi(expr_op::PARENTHSIS);
  }
 #line 729 "qultl.tab.cc" // lalr1.cc:859
     break;
 
-  case 17:
-#line 145 "qultl.y" // lalr1.cc:859
+  case 16:
+#line 141 "qultl.y" // lalr1.cc:859
     {
-  qh.parse_phi(expr_op::TMP_G);
- }
-#line 737 "qultl.tab.cc" // lalr1.cc:859
+  }
+#line 736 "qultl.tab.cc" // lalr1.cc:859
+    break;
+
+  case 17:
+#line 143 "qultl.y" // lalr1.cc:859
+    {
+  }
+#line 743 "qultl.tab.cc" // lalr1.cc:859
     break;
 
   case 18:
-#line 148 "qultl.y" // lalr1.cc:859
-    {
-  qh.parse_phi(expr_op::TMP_X);
- }
-#line 745 "qultl.tab.cc" // lalr1.cc:859
+#line 147 "qultl.y" // lalr1.cc:859
+    {}
+#line 749 "qultl.tab.cc" // lalr1.cc:859
     break;
 
   case 19:
-#line 153 "qultl.y" // lalr1.cc:859
-    {
-  }
-#line 752 "qultl.tab.cc" // lalr1.cc:859
+#line 150 "qultl.y" // lalr1.cc:859
+    {}
+#line 755 "qultl.tab.cc" // lalr1.cc:859
     break;
 
   case 20:
-#line 155 "qultl.y" // lalr1.cc:859
-    {
-  }
-#line 759 "qultl.tab.cc" // lalr1.cc:859
-    break;
-
-  case 21:
-#line 159 "qultl.y" // lalr1.cc:859
-    {}
-#line 765 "qultl.tab.cc" // lalr1.cc:859
-    break;
-
-  case 22:
-#line 160 "qultl.y" // lalr1.cc:859
+#line 151 "qultl.y" // lalr1.cc:859
     {
   qh.parse_phi(expr_op::IMPLICATION);
  }
-#line 773 "qultl.tab.cc" // lalr1.cc:859
+#line 763 "qultl.tab.cc" // lalr1.cc:859
     break;
 
-  case 23:
-#line 165 "qultl.y" // lalr1.cc:859
+  case 21:
+#line 156 "qultl.y" // lalr1.cc:859
     {}
-#line 779 "qultl.tab.cc" // lalr1.cc:859
+#line 769 "qultl.tab.cc" // lalr1.cc:859
     break;
 
-  case 24:
-#line 166 "qultl.y" // lalr1.cc:859
+  case 22:
+#line 157 "qultl.y" // lalr1.cc:859
     {
   qh.parse_phi(expr_op::OR);
  }
-#line 787 "qultl.tab.cc" // lalr1.cc:859
+#line 777 "qultl.tab.cc" // lalr1.cc:859
     break;
 
-  case 25:
-#line 171 "qultl.y" // lalr1.cc:859
+  case 23:
+#line 162 "qultl.y" // lalr1.cc:859
     {}
-#line 793 "qultl.tab.cc" // lalr1.cc:859
+#line 783 "qultl.tab.cc" // lalr1.cc:859
     break;
 
-  case 26:
-#line 172 "qultl.y" // lalr1.cc:859
+  case 24:
+#line 163 "qultl.y" // lalr1.cc:859
     {
   qh.parse_phi(expr_op::AND);
  }
-#line 801 "qultl.tab.cc" // lalr1.cc:859
+#line 791 "qultl.tab.cc" // lalr1.cc:859
     break;
 
-  case 27:
-#line 177 "qultl.y" // lalr1.cc:859
+  case 25:
+#line 168 "qultl.y" // lalr1.cc:859
     {}
-#line 807 "qultl.tab.cc" // lalr1.cc:859
+#line 797 "qultl.tab.cc" // lalr1.cc:859
     break;
 
-  case 28:
-#line 178 "qultl.y" // lalr1.cc:859
+  case 26:
+#line 169 "qultl.y" // lalr1.cc:859
     {
   qh.parse_phi(expr_op::NEGATION);
  }
-#line 815 "qultl.tab.cc" // lalr1.cc:859
+#line 805 "qultl.tab.cc" // lalr1.cc:859
+    break;
+
+  case 27:
+#line 174 "qultl.y" // lalr1.cc:859
+    {
+  qh.parse_phi(expr_op::PARENTHSIS);
+ }
+#line 813 "qultl.tab.cc" // lalr1.cc:859
+    break;
+
+  case 28:
+#line 177 "qultl.y" // lalr1.cc:859
+    {
+  qh.parse_phi(1);
+  }
+#line 821 "qultl.tab.cc" // lalr1.cc:859
     break;
 
   case 29:
-#line 183 "qultl.y" // lalr1.cc:859
+#line 180 "qultl.y" // lalr1.cc:859
     {
-  qh.parse_phi(expr_op::PARENTHSIS);
- }
-#line 823 "qultl.tab.cc" // lalr1.cc:859
+  qh.parse_phi(1);
+  }
+#line 829 "qultl.tab.cc" // lalr1.cc:859
     break;
 
   case 30:
-#line 186 "qultl.y" // lalr1.cc:859
-    {
-  qh.parse_phi(1);
-  }
-#line 831 "qultl.tab.cc" // lalr1.cc:859
+#line 183 "qultl.y" // lalr1.cc:859
+    {}
+#line 835 "qultl.tab.cc" // lalr1.cc:859
     break;
 
   case 31:
-#line 189 "qultl.y" // lalr1.cc:859
-    {
-  qh.parse_phi(1);
-  }
-#line 839 "qultl.tab.cc" // lalr1.cc:859
-    break;
-
-  case 32:
-#line 192 "qultl.y" // lalr1.cc:859
-    {}
-#line 845 "qultl.tab.cc" // lalr1.cc:859
-    break;
-
-  case 33:
-#line 195 "qultl.y" // lalr1.cc:859
+#line 186 "qultl.y" // lalr1.cc:859
     {
   qh.parse_phi(expr_op::EQUAL);
  }
-#line 853 "qultl.tab.cc" // lalr1.cc:859
+#line 843 "qultl.tab.cc" // lalr1.cc:859
     break;
 
-  case 34:
-#line 198 "qultl.y" // lalr1.cc:859
+  case 32:
+#line 189 "qultl.y" // lalr1.cc:859
     {
   qh.parse_phi(expr_op::NOT_EQUAL);
  }
-#line 861 "qultl.tab.cc" // lalr1.cc:859
+#line 851 "qultl.tab.cc" // lalr1.cc:859
     break;
 
-  case 35:
-#line 201 "qultl.y" // lalr1.cc:859
+  case 33:
+#line 192 "qultl.y" // lalr1.cc:859
     {
   qh.parse_phi(expr_op::LESS_THAN);
  }
-#line 869 "qultl.tab.cc" // lalr1.cc:859
+#line 859 "qultl.tab.cc" // lalr1.cc:859
     break;
 
-  case 36:
-#line 204 "qultl.y" // lalr1.cc:859
+  case 34:
+#line 195 "qultl.y" // lalr1.cc:859
     {
   qh.parse_phi(expr_op::GREATER_THAN);
  }
-#line 877 "qultl.tab.cc" // lalr1.cc:859
+#line 867 "qultl.tab.cc" // lalr1.cc:859
     break;
 
-  case 37:
-#line 207 "qultl.y" // lalr1.cc:859
+  case 35:
+#line 198 "qultl.y" // lalr1.cc:859
     {
   qh.parse_phi(expr_op::LESS_THAN_EQ);
  }
-#line 885 "qultl.tab.cc" // lalr1.cc:859
+#line 875 "qultl.tab.cc" // lalr1.cc:859
     break;
 
-  case 38:
-#line 210 "qultl.y" // lalr1.cc:859
+  case 36:
+#line 201 "qultl.y" // lalr1.cc:859
     {
   qh.parse_phi(expr_op::GREATER_THAN_EQ);
  }
-#line 893 "qultl.tab.cc" // lalr1.cc:859
+#line 883 "qultl.tab.cc" // lalr1.cc:859
     break;
 
-  case 39:
-#line 215 "qultl.y" // lalr1.cc:859
+  case 37:
+#line 206 "qultl.y" // lalr1.cc:859
     {}
-#line 899 "qultl.tab.cc" // lalr1.cc:859
+#line 889 "qultl.tab.cc" // lalr1.cc:859
     break;
 
-  case 40:
-#line 216 "qultl.y" // lalr1.cc:859
+  case 38:
+#line 207 "qultl.y" // lalr1.cc:859
     {
   qh.parse_phi(expr_op::MULTIPLICATION);
  }
-#line 907 "qultl.tab.cc" // lalr1.cc:859
+#line 897 "qultl.tab.cc" // lalr1.cc:859
     break;
 
-  case 41:
-#line 221 "qultl.y" // lalr1.cc:859
+  case 39:
+#line 212 "qultl.y" // lalr1.cc:859
     {}
-#line 913 "qultl.tab.cc" // lalr1.cc:859
+#line 903 "qultl.tab.cc" // lalr1.cc:859
     break;
 
-  case 42:
-#line 222 "qultl.y" // lalr1.cc:859
+  case 40:
+#line 213 "qultl.y" // lalr1.cc:859
     {
   qh.parse_phi(expr_op::ADDITION);
  }
-#line 921 "qultl.tab.cc" // lalr1.cc:859
+#line 911 "qultl.tab.cc" // lalr1.cc:859
     break;
 
-  case 43:
-#line 227 "qultl.y" // lalr1.cc:859
+  case 41:
+#line 218 "qultl.y" // lalr1.cc:859
     {}
-#line 927 "qultl.tab.cc" // lalr1.cc:859
+#line 917 "qultl.tab.cc" // lalr1.cc:859
     break;
 
-  case 44:
-#line 228 "qultl.y" // lalr1.cc:859
+  case 42:
+#line 219 "qultl.y" // lalr1.cc:859
     {
   qh.parse_phi(expr_op::SUBTRACTION);
  }
-#line 935 "qultl.tab.cc" // lalr1.cc:859
+#line 925 "qultl.tab.cc" // lalr1.cc:859
     break;
 
-  case 45:
-#line 233 "qultl.y" // lalr1.cc:859
+  case 43:
+#line 224 "qultl.y" // lalr1.cc:859
     {
   qh.parse_phi(expr_op::PARENTHSIS);
  }
-#line 943 "qultl.tab.cc" // lalr1.cc:859
+#line 933 "qultl.tab.cc" // lalr1.cc:859
     break;
 
-  case 46:
-#line 236 "qultl.y" // lalr1.cc:859
+  case 44:
+#line 227 "qultl.y" // lalr1.cc:859
     {
   qh.parse_phi(expr_op::COUNT);
  }
-#line 951 "qultl.tab.cc" // lalr1.cc:859
+#line 941 "qultl.tab.cc" // lalr1.cc:859
     break;
 
-  case 47:
-#line 239 "qultl.y" // lalr1.cc:859
+  case 45:
+#line 230 "qultl.y" // lalr1.cc:859
     {
   qh.parse_phi(expr_op::SIZE);
   }
-#line 959 "qultl.tab.cc" // lalr1.cc:859
+#line 949 "qultl.tab.cc" // lalr1.cc:859
     break;
 
-  case 48:
-#line 242 "qultl.y" // lalr1.cc:859
+  case 46:
+#line 233 "qultl.y" // lalr1.cc:859
     { }
-#line 965 "qultl.tab.cc" // lalr1.cc:859
+#line 955 "qultl.tab.cc" // lalr1.cc:859
     break;
 
-  case 49:
-#line 245 "qultl.y" // lalr1.cc:859
+  case 47:
+#line 236 "qultl.y" // lalr1.cc:859
     {
   qh.parse_phi((yystack_[0].value.t_str));
   free((yystack_[0].value.t_str));
  }
-#line 974 "qultl.tab.cc" // lalr1.cc:859
+#line 964 "qultl.tab.cc" // lalr1.cc:859
     break;
 
-  case 50:
-#line 251 "qultl.y" // lalr1.cc:859
+  case 48:
+#line 242 "qultl.y" // lalr1.cc:859
     {
   qh.parse_phi((yystack_[0].value.t_val));
  }
-#line 982 "qultl.tab.cc" // lalr1.cc:859
+#line 972 "qultl.tab.cc" // lalr1.cc:859
     break;
 
 
-#line 986 "qultl.tab.cc" // lalr1.cc:859
+#line 976 "qultl.tab.cc" // lalr1.cc:859
             default:
               break;
             }
@@ -1237,88 +1227,80 @@ namespace yy {
   }
 
 
-  const signed char qultl::yypact_ninf_ = -21;
+  const signed char qultl::yypact_ninf_ = -27;
 
   const signed char qultl::yytable_ninf_ = -1;
 
   const signed char
   qultl::yypact_[] =
   {
-       3,    48,    48,    48,    82,    61,   -18,   -21,   -21,   -21,
-     -21,     3,   -20,    18,    -8,     4,     7,   -21,   -21,    19,
-     -21,   -21,    13,    22,    24,   -21,   -21,   -21,   101,    30,
-      32,   -21,   -21,   -21,    82,   -21,   -21,   -21,   -21,   -21,
-     -21,     8,    -3,    80,   -21,   -21,     3,   -21,     3,     3,
-      48,    82,    82,    82,   -14,   -14,   -14,   -14,   -14,   -14,
-     -14,   -14,   -14,    -3,   -21,   -21,   -21,     4,     7,   -21,
-     -21,    22,    24,   -21,   -14,    30,    34,    34,    34,    34,
-      34,    34,    32,   -21,     5
+      50,    50,    50,    50,    61,    50,   -26,   -27,   -27,   -27,
+     -27,    50,   -19,    18,   -13,    23,   -27,   -27,   -27,     7,
+       9,    14,   -27,   -27,   -27,    13,    21,    22,   -27,   -27,
+     -27,   -27,   -27,   -27,    61,   -27,   -27,   -27,    24,   -10,
+      -8,   -27,   -27,   -27,    50,    50,    50,    50,    50,    61,
+      61,    61,    34,    34,    34,    34,    34,    34,    34,    34,
+      34,   -10,   -27,   -27,   -27,   -27,   -27,   -27,   -27,   -27,
+       9,    14,   -27,    34,    21,    47,    47,    47,    47,    47,
+      47,    22,   -27,    -7
   };
 
   const unsigned char
   qultl::yydefact_[] =
   {
-       0,     0,     0,     0,     0,     0,     0,    30,    31,    50,
-      49,     0,     0,     0,     0,     3,     5,     7,     9,    12,
-      13,    15,    20,    21,    23,    25,    27,    32,     0,    39,
-      41,    43,    19,    48,     0,    16,    17,    18,    28,    10,
-      46,     0,    20,     0,    47,     1,     0,     2,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,    28,    29,    48,
+      47,     0,     0,     0,     0,     3,     4,    10,    16,    17,
+      19,    21,    23,    25,    30,     0,    37,    39,    41,    18,
+      46,    11,    12,    13,     0,    26,    14,    44,     0,    17,
+       0,    45,     1,     2,     0,     0,     0,     0,     0,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,    11,    29,    45,     4,     6,     8,
-      14,    22,    24,    26,     0,    40,    33,    34,    35,    36,
-      37,    38,    42,    44,     0
+       0,     0,    15,    27,    43,     9,     5,     6,     7,     8,
+      20,    22,    24,     0,    38,    31,    32,    33,    34,    35,
+      36,    40,    42,     0
   };
 
   const signed char
   qultl::yypgoto_[] =
   {
-     -21,    44,   -21,    -5,     9,    10,    51,   -21,     0,   -21,
-      -7,    11,    15,     1,   -21,   -21,   -11,     6,    21,    -1,
-      62,   -21
+     -27,   -27,    54,   -27,     4,   -27,   -27,    -3,    12,    16,
+       6,   -27,   -27,   -11,    20,    11,     8,    67,   -27
   };
 
   const signed char
   qultl::yydefgoto_[] =
   {
       -1,    13,    14,    15,    16,    17,    18,    19,    20,    21,
-      22,    23,    24,    25,    26,    27,    28,    29,    30,    31,
-      32,    33
+      22,    23,    24,    25,    26,    27,    28,    29,    30
   };
 
   const unsigned char
   qultl::yytable_[] =
   {
-      43,    35,    36,    37,    42,    38,     1,     2,     3,    46,
-      51,     6,    10,     4,    54,     9,    44,     5,    45,    74,
-      48,    12,    49,    43,    47,    50,    51,    63,     6,     7,
-       8,    65,     9,    10,    52,    53,    11,    61,    12,    66,
-      62,    67,    64,    54,    76,    77,    78,    79,    80,    81,
-      70,     1,     2,     3,    73,    41,    39,    68,     4,    69,
-      75,    83,    71,    84,     1,     2,     3,    72,    40,     0,
-       0,     4,     0,     6,     7,     8,     0,     9,    10,     0,
-       0,    34,    82,    12,     0,     0,     6,     7,     8,    54,
-       9,    10,     4,     0,    11,     0,    12,     0,     0,    55,
-      56,    57,    58,    59,    60,     0,     0,     6,     7,     8,
-      54,     9,     0,     0,    66,    34,     0,    12,     0,     0,
-      55,    56,    57,    58,    59,    60
+      40,    52,    52,    49,    10,    31,    32,    33,    39,    36,
+      35,    53,    54,    55,    56,    57,    58,    41,    42,    43,
+      49,    50,    52,    40,    63,    51,    64,    64,    59,    44,
+      60,    61,    53,    54,    55,    56,    57,    58,    45,    46,
+      47,    48,    75,    76,    77,    78,    79,    80,    65,    66,
+      67,    68,    69,     1,     2,     3,    52,    72,    62,     6,
+       4,    70,    83,     9,     5,    38,    71,    73,    82,    12,
+      81,     4,    74,    37,     0,     6,     7,     8,     0,     9,
+      10,     0,     0,    11,     0,    12,     6,     7,     8,     0,
+       9,     0,     0,     0,    34,     0,    12
   };
 
   const signed char
   qultl::yycheck_[] =
   {
-      11,     1,     2,     3,    11,     4,     3,     4,     5,    17,
-      13,    25,    30,    10,     9,    29,    36,    14,     0,    33,
-      16,    35,    15,    34,    32,     6,    13,    34,    25,    26,
-      27,    34,    29,    30,    12,    11,    33,     7,    35,    34,
-       8,    46,    34,     9,    55,    56,    57,    58,    59,    60,
-      50,     3,     4,     5,    53,    11,     5,    48,    10,    49,
-      54,    62,    51,    74,     3,     4,     5,    52,     6,    -1,
-      -1,    10,    -1,    25,    26,    27,    -1,    29,    30,    -1,
-      -1,    33,    61,    35,    -1,    -1,    25,    26,    27,     9,
-      29,    30,    10,    -1,    33,    -1,    35,    -1,    -1,    19,
-      20,    21,    22,    23,    24,    -1,    -1,    25,    26,    27,
-       9,    29,    -1,    -1,    34,    33,    -1,    35,    -1,    -1,
-      19,    20,    21,    22,    23,    24
+      11,     9,     9,    13,    30,     1,     2,     3,    11,     5,
+       4,    19,    20,    21,    22,    23,    24,    36,     0,    32,
+      13,    12,     9,    34,    34,    11,    34,    34,     7,     6,
+       8,    34,    19,    20,    21,    22,    23,    24,    15,    16,
+      17,    18,    53,    54,    55,    56,    57,    58,    44,    45,
+      46,    47,    48,     3,     4,     5,     9,    51,    34,    25,
+      10,    49,    73,    29,    14,    11,    50,    33,    60,    35,
+      59,    10,    52,     6,    -1,    25,    26,    27,    -1,    29,
+      30,    -1,    -1,    33,    -1,    35,    25,    26,    27,    -1,
+      29,    -1,    -1,    -1,    33,    -1,    35
   };
 
   const unsigned char
@@ -1327,34 +1309,32 @@ namespace yy {
        0,     3,     4,     5,    10,    14,    25,    26,    27,    29,
       30,    33,    35,    38,    39,    40,    41,    42,    43,    44,
       45,    46,    47,    48,    49,    50,    51,    52,    53,    54,
-      55,    56,    57,    58,    33,    45,    45,    45,    50,    43,
-      57,    38,    47,    53,    36,     0,    17,    32,    16,    15,
-       6,    13,    12,    11,     9,    19,    20,    21,    22,    23,
-      24,     7,     8,    47,    34,    34,    34,    40,    41,    42,
-      45,    48,    49,    50,    33,    54,    53,    53,    53,    53,
-      53,    53,    55,    56,    53
+      55,    41,    41,    41,    33,    47,    41,    54,    39,    44,
+      50,    36,     0,    32,     6,    15,    16,    17,    18,    13,
+      12,    11,     9,    19,    20,    21,    22,    23,    24,     7,
+       8,    44,    34,    34,    34,    41,    41,    41,    41,    41,
+      45,    46,    47,    33,    51,    50,    50,    50,    50,    50,
+      50,    52,    53,    50
   };
 
   const unsigned char
   qultl::yyr1_[] =
   {
-       0,    37,    38,    39,    39,    40,    40,    41,    41,    42,
-      42,    43,    43,    44,    44,    45,    45,    45,    45,    46,
-      46,    47,    47,    48,    48,    49,    49,    50,    50,    51,
-      51,    51,    51,    52,    52,    52,    52,    52,    52,    53,
-      53,    54,    54,    55,    55,    56,    56,    56,    56,    57,
-      58
+       0,    37,    38,    39,    40,    40,    40,    40,    40,    40,
+      41,    41,    41,    41,    41,    42,    42,    42,    43,    44,
+      44,    45,    45,    46,    46,    47,    47,    48,    48,    48,
+      48,    49,    49,    49,    49,    49,    49,    50,    50,    51,
+      51,    52,    52,    53,    53,    53,    53,    54,    55
   };
 
   const unsigned char
   qultl::yyr2_[] =
   {
-       0,     2,     2,     1,     3,     1,     3,     1,     3,     1,
-       2,     3,     1,     1,     3,     1,     2,     2,     2,     1,
-       1,     1,     3,     1,     3,     1,     3,     1,     2,     3,
-       1,     1,     1,     3,     3,     3,     3,     3,     3,     1,
-       3,     1,     3,     1,     3,     3,     2,     2,     1,     1,
-       1
+       0,     2,     2,     1,     1,     3,     3,     3,     3,     3,
+       1,     2,     2,     2,     2,     3,     1,     1,     1,     1,
+       3,     1,     3,     1,     3,     1,     2,     3,     1,     1,
+       1,     3,     3,     3,     3,     3,     3,     1,     3,     1,
+       3,     1,     3,     3,     2,     2,     1,     1,     1
   };
 
 
@@ -1369,22 +1349,21 @@ namespace yy {
   "\"&&\"", "\"||\"", "\"=>\"", "\"<>\"", "\"=\"", "\"!=\"", "\"<\"",
   "\">\"", "\"<=\"", "\">=\"", "\"#\"", "\"true\"", "\"false\"", "T_END",
   "T_NAT", "T_IDEN", "T_DELIM", "';'", "'('", "')'", "'['", "']'",
-  "$accept", "ltl", "bin_ltl", "or_ltl", "and_ltl", "neg_ltl", "prm_ltl",
-  "temporal_ltl", "una_temporal_ltl", "prm_temporal_ltl", "expr",
-  "or_expr", "and_expr", "una_expr", "prm_expr", "literal", "qula_expr",
-  "qula_add_expr", "qula_sub_expr", "qula_prm_expr", "msg", "constant", YY_NULLPTR
+  "$accept", "ltl", "qultl", "bin_temporal_ltl", "una_temporal_ltl",
+  "prm_temporal_ltl", "atom", "expr", "or_expr", "and_expr", "una_expr",
+  "prm_expr", "literal", "qula_expr", "qula_add_expr", "qula_sub_expr",
+  "qula_prm_expr", "msg", "constant", YY_NULLPTR
   };
 
 #if YYDEBUG
   const unsigned char
   qultl::yyrline_[] =
   {
-       0,    99,    99,   102,   103,   111,   112,   117,   118,   123,
-     124,   129,   132,   135,   136,   141,   142,   145,   148,   153,
-     155,   159,   160,   165,   166,   171,   172,   177,   178,   183,
-     186,   189,   192,   195,   198,   201,   204,   207,   210,   215,
-     216,   221,   222,   227,   228,   233,   236,   239,   242,   245,
-     251
+       0,    99,    99,   102,   105,   106,   109,   112,   115,   118,
+     123,   124,   127,   130,   133,   138,   141,   143,   147,   150,
+     151,   156,   157,   162,   163,   168,   169,   174,   177,   180,
+     183,   186,   189,   192,   195,   198,   201,   206,   207,   212,
+     213,   218,   219,   224,   227,   230,   233,   236,   242
   };
 
   // Print the state stack on the debug stream.
@@ -1468,8 +1447,8 @@ namespace yy {
 
 
 } // yy
-#line 1472 "qultl.tab.cc" // lalr1.cc:1167
-#line 256 "qultl.y" // lalr1.cc:1168
+#line 1451 "qultl.tab.cc" // lalr1.cc:1167
+#line 247 "qultl.y" // lalr1.cc:1168
 
 
 /*******************************************************************************

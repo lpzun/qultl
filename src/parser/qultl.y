@@ -78,7 +78,7 @@
 %token <t_str> T_IDEN
 %token <t_sep> T_DELIM
 
-%type <t_str> ltl bin_ltl or_ltl and_ltl neg_ltl prm_ltl temporal_ltl literal msg // value
+%type <t_str> ltl qultl bin_temporal_ltl una_temporal_ltl prm_temporal_ltl expr literal msg // value
 %type <t_val> constant //
 
 %start ltl
@@ -96,49 +96,31 @@
  * ** bison rules for QuLTL parser
  ******************************************************************************/
 %%
-ltl: bin_ltl ';' { }
+ltl: qultl ';' { }
 ;
 
-bin_ltl: or_ltl { }
-| bin_ltl T_TMP_IMPLICATION or_ltl {
-  qh.parse_phi(expr_op::IMPLICATION);
- }
-/* | bin_ltl T_TMP_EQUIVALENCE or_ltl { */
-/*   qh.parse_phi(expr_op::EQUIVALENCE); */
-/*  } */
+qultl: bin_temporal_ltl { }
 ;
 
-or_ltl: and_ltl { }
-| or_ltl T_TMP_OR and_ltl {
-  qh.parse_phi(expr_op::OR);
- }
-;
-
-and_ltl: neg_ltl { }
-| and_ltl T_TMP_AND neg_ltl {
+bin_temporal_ltl: una_temporal_ltl { }
+| bin_temporal_ltl T_TMP_AND una_temporal_ltl {
   qh.parse_phi(expr_op::AND);
  }
-;
-
-neg_ltl: prm_ltl { }
-| T_TMP_NEGATION prm_ltl {
-  qh.parse_phi(expr_op::NEGATION);
+| bin_temporal_ltl T_TMP_OR una_temporal_ltl {
+  qh.parse_phi(expr_op::OR);
  }
-;
-
-prm_ltl: '(' ltl ')' {
-  qh.parse_phi(expr_op::PARENTHSIS);  
+| bin_temporal_ltl T_TMP_IMPLICATION una_temporal_ltl {
+  qh.parse_phi(expr_op::IMPLICATION);
  }
-| temporal_ltl { }
-;
-
-temporal_ltl: una_temporal_ltl {}
-| temporal_ltl T_QuLTL_U una_temporal_ltl {
+| bin_temporal_ltl T_TMP_EQUIVALENCE una_temporal_ltl {
+  qh.parse_phi(expr_op::EQUIVALENCE);
+ }
+| bin_temporal_ltl T_QuLTL_U una_temporal_ltl {
   qh.parse_phi(expr_op::TMP_U);
  }
 ;
 
-una_temporal_ltl: prm_temporal_ltl {}
+una_temporal_ltl: prm_temporal_ltl { }
 | T_QuLTL_F una_temporal_ltl {
   qh.parse_phi(expr_op::TMP_F);
  }
@@ -148,12 +130,21 @@ una_temporal_ltl: prm_temporal_ltl {}
 | T_QuLTL_X una_temporal_ltl {
   qh.parse_phi(expr_op::TMP_X);
  }
+| T_TMP_NEGATION una_temporal_ltl {
+  qh.parse_phi(expr_op::NEGATION);
+ }
 ;
 
-prm_temporal_ltl: msg {
+prm_temporal_ltl: '(' qultl ')' {
+  qh.parse_phi(expr_op::PARENTHSIS);
+ }
+| atom {
   }
 | expr {
   }
+;
+
+atom: msg {}
 ;
 
 expr: or_expr {}
