@@ -50,7 +50,7 @@ ostream& operator<<(ostream& os, const expr_op& o);
 /**
  * types of expression components
  */
-enum class type_expr_cpnt {
+enum class type_expr_node {
 	OPERATOR, //!< OPERATOR
 	VARIABLE, //!< VARIABLE
 	CONSTANT //!< CONSTANT
@@ -70,18 +70,18 @@ using alphabet = unordered_set<alpha>;
 /**
  * expression components
  */
-class expr_cpnt {
+class expr_node {
 public:
-	expr_cpnt(const type_expr_cpnt& type, const expr_op& op);
-	expr_cpnt(const type_expr_cpnt& type, const nat v);
-	expr_cpnt(const type_expr_cpnt& type, const alpha& a);
-	~expr_cpnt();
+	expr_node(const type_expr_node& type, const expr_op& op);
+	expr_node(const type_expr_node& type, const nat v);
+	expr_node(const type_expr_node& type, const alpha& a);
+	~expr_node();
 
 	expr_op get_op() const {
 		return _op;
 	}
 
-	type_expr_cpnt get_type() const {
+	type_expr_node get_type() const {
 		return _type;
 	}
 
@@ -93,16 +93,30 @@ public:
 		return _var;
 	}
 
-	friend ostream& operator<<(ostream& os, const expr_cpnt& e);
+	friend ostream& operator<<(ostream& os, const expr_node& e);
 private:
-	type_expr_cpnt _type;
+	type_expr_node _type;
 	expr_op _op;
 	nat _val;
 	alpha _var;
 };
 
+class ast_node {
+public:
+	expr_node _node;
+	shared_ptr<ast_node> left;
+	shared_ptr<ast_node> right;
+
+	ast_node(const expr_node& node) :
+			_node(node), left(nullptr), right(nullptr) {
+	}
+	~ast_node() {
+
+	}
+};
+
 /// formula
-using formula = deque<expr_cpnt>;
+using formula = deque<expr_node>;
 
 /**
  * A helper class for qultl helper.
@@ -126,9 +140,17 @@ public:
 		return phi;
 	}
 
+	void build_ast();
+
 private:
 	formula phi;
 	alphabet _E;
+	shared_ptr<ast_node> root;
+
+
+	void build_ast(const expr_node& enode,
+			stack<shared_ptr<ast_node>>& worklist);
+	void print(const shared_ptr<ast_node> root);
 };
 
 } /* namespace qultl */

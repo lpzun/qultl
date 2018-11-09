@@ -46,7 +46,7 @@ bool checker::eval(const deque<alpha>& Q) {
 	auto rhs = _phi.begin();
 	stack<nat> result;
 	while (rhs < _phi.end()) {
-		if (rhs->get_type() == type_expr_cpnt::OPERATOR) {
+		if (rhs->get_type() == type_expr_node::OPERATOR) {
 			switch (rhs->get_op()) {
 			case expr_op::TMP_G: {
 
@@ -78,7 +78,7 @@ bool checker::eval(const deque<alpha>& Q) {
 	}
 
 	for (int i = 0; i < _phi.size(); ++i) {
-		if (_phi[i].get_type() == type_expr_cpnt::OPERATOR) {
+		if (_phi[i].get_type() == type_expr_node::OPERATOR) {
 			switch (_phi[i].get_op()) {
 			case expr_op::TMP_G: {
 				formula phi(_phi.begin(), _phi.begin() + i);
@@ -139,13 +139,13 @@ bool checker::eval(const deque<alpha>& Q, const formula& phi) {
 	for (int i = 0; i < phi.size(); ++i) {
 		auto comp = phi[i];
 		switch (comp.get_type()) {
-		case type_expr_cpnt::VARIABLE:
+		case type_expr_node::VARIABLE:
 			if (phi[i + 1].get_op() == expr_op::COUNT) {
 				worklist.push(eval_counting(comp.get_var()));
 				++i;
 			}
 			break;
-		case type_expr_cpnt::CONSTANT:
+		case type_expr_node::CONSTANT:
 			worklist.push(comp.get_val());
 			break;
 		default:
@@ -286,10 +286,10 @@ string checker::recover_phi(const formula& phi) {
 	stack<string> worklist;
 	for (const auto& comp : phi) {
 		switch (comp.get_type()) {
-		case type_expr_cpnt::VARIABLE:
+		case type_expr_node::VARIABLE:
 			worklist.push(comp.get_var());
 			break;
-		case type_expr_cpnt::CONSTANT:
+		case type_expr_node::CONSTANT:
 			worklist.push(std::to_string(comp.get_val()));
 			break;
 		default:

@@ -24,6 +24,7 @@
 #include <map>
 #include <unordered_map>
 #include <type_traits>
+#include <memory>
 
 #include <stdexcept>
 
@@ -55,8 +56,10 @@ using std::unordered_set;
 using std::set;
 using std::pair;
 using std::bitset;
+using std::make_shared;
 
 using std::runtime_error;
+using std::shared_ptr;
 
 using ushort = unsigned short;
 using uint = unsigned int;

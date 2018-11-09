@@ -127,6 +127,7 @@ qultl_parser::qultl_parser(const string& filename, const alphabet& _E) :
 	if (result != 0)
 		throw runtime_error(
 				"Parser exit with error code: " + std::to_string(result));
+	qh.build_ast();
 	cout << "phi := ";
 	qh.print();
 	phi = qh.get_phi();

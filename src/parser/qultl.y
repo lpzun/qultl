@@ -1,17 +1,10 @@
 /*******************************************************************************
- ** Name:    	BoPP: parser
+ ** Name:    	QuLTL: parser
  ** Authors: 	Peizun Liu
- ** Version: 	0.5
+ ** Version: 	0.1
  ** Copyright: 	It belongs to Thomas Wahl's group in CAR Lab, CCIS, NEU
- ** Create on:  Feb, 2014
- ** Modified :  Jan, 2016
- ** Decription: BoPP is a Boolean Program Parser written with C++. It aims  at
- *		parsing Boolean programs to generate a control folow graph and 
- *		the corresponding weakest preconditions (strongest postcondit-
- *              ions) for each statement when computing a preimage (postimage).
- *
- *              parser: 
- *              v0.5: adding the forward-based CFG and so on
+ ** Create on:  Oct, 2018
+ ** Decription: 
  ******************************************************************************/
 %language "C++"
 %locations     // enable location tracking
