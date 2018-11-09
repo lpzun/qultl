@@ -148,7 +148,6 @@ bool qultl_expr::is_legal_alpha(const alpha& var) {
 void qultl_expr::build_ast() {
 	stack<shared_ptr<ast_node>> worklist;
 	for (const auto enode : phi) {
-		cout << enode << endl;
 		switch (enode.get_type()) {
 		case type_expr_node::VARIABLE:
 			worklist.push(std::make_shared<ast_node>(enode));
