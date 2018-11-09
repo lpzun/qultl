@@ -14,8 +14,9 @@ namespace qultl {
  * @param phi
  * @param E
  */
-checker::checker(const formula& phi, const alphabet& E) :
-		_phi(phi), _E(E), counting(), size_Q() {
+checker::checker(const shared_ptr<ast_node>& phi, const deque<alpha>& Q,
+		const alphabet& E) :
+		_phi(phi), _Q(Q), _E(E) {
 }
 
 checker::~checker() {
@@ -27,13 +28,12 @@ checker::~checker() {
  * @param Q
  * @return bool
  */
-bool checker::check(const deque<alpha>& Q) {
-	for (const auto &a : Q) {
+bool checker::check() {
+	for (const auto &a : _Q) {
 		if (_E.find(a) == _E.end())
 			throw runtime_error("Illegal message!");
 	}
-	cout << recover_phi(_phi) << endl;
-	return eval(Q);
+	return eval();
 }
 
 /**
@@ -41,360 +41,161 @@ bool checker::check(const deque<alpha>& Q) {
  * @param Q
  * @return
  */
-bool checker::eval(const deque<alpha>& Q) {
-	auto lhs = _phi.begin();
-	auto rhs = _phi.begin();
-	stack<nat> result;
-	while (rhs < _phi.end()) {
-		if (rhs->get_type() == type_expr_node::OPERATOR) {
-			switch (rhs->get_op()) {
-			case expr_op::TMP_G: {
+bool checker::eval() {
+	return eval(0, _phi);
+}
 
-			}
-				break;
-			case expr_op::TMP_X: {
+int checker::eval(const size_t i, const shared_ptr<ast_node>& phi) {
+	if (i == _Q.size() || phi == nullptr)
+		return 0;
 
-			}
-				break;
-			case expr_op::TMP_F: {
+	auto node = phi->_node;
 
-			}
-				break;
-			case expr_op::TMP_U: {
+	switch (node.get_type()) {
+	case type_expr_node::VARIABLE:
+		return node.get_var() == this->_Q[i] ? 1 : 0;
+	case type_expr_node::CONSTANT:
+		return node.get_val();
+	default:
+		return eval_op(i, phi);
+	}
+	return 0;
+}
 
-			}
-				break;
-			default: {
-
-			}
-				break;
+int checker::eval_op(const size_t start, const shared_ptr<ast_node>& phi) {
+	switch (phi->_node.get_op()) {
+	case expr_op::TMP_F: {
+		for (int i = start; i < this->_Q.size(); ++i) {
+			if (eval(i, phi->left))
+				return 1;
+		}
+		return 0;
+	}
+	case expr_op::TMP_G: {
+		for (int i = start; i < this->_Q.size(); ++i) {
+			if (!eval(i, phi->left))
+				return 0;
+		}
+		return 1;
+	}
+	case expr_op::TMP_X: {
+		return eval(start + 1, phi->left);
+	}
+	case expr_op::TMP_N: {
+		auto lch = eval(start, phi->left);
+		return lch ^ 1; // negate the result
+	}
+	case expr_op::TMP_U: {
+		for (int i = start; i < this->_Q.size(); ++i) {
+			if (eval(i, phi->right)) {
+				for (int j = start; j < i; ++j) {
+					if (!eval(j, phi->left))
+						return 0;
+				}
+				return 1;
 			}
 		}
-		++rhs;
+		return 0;
 	}
-
-	if (lhs != _phi.end()) {
-
+		break;
+	case expr_op::COUNT: {
+		if (!phi->left
+				|| phi->left->_node.get_type() != type_expr_node::VARIABLE)
+			throw runtime_error("illegal formula: counting");
+		return eval_count(start, phi->left->_node.get_var());
 	}
-
-	for (int i = 0; i < _phi.size(); ++i) {
-		if (_phi[i].get_type() == type_expr_node::OPERATOR) {
-			switch (_phi[i].get_op()) {
-			case expr_op::TMP_G: {
-				formula phi(_phi.begin(), _phi.begin() + i);
-				return eval_G(Q, phi);
-			}
-				break;
-			case expr_op::TMP_X: {
-				formula phi(_phi.begin(), _phi.begin() + i);
-				return eval_X(Q, phi);
-			}
-				break;
-			case expr_op::TMP_F:
-				break;
-			case expr_op::TMP_U:
-				break;
-			default:
-				break;
-			}
-		}
+	case expr_op::SIZE: {
+		return this->_Q.size();
 	}
-	return eval(Q, _phi);
-}
-
-bool checker::eval_G(const deque<alpha>& Q, const formula& phi) {
-	cout << recover_phi(phi) << endl;
-	for (int i = 0; i < Q.size() - 1; ++i) {
-		deque<alpha> qq(Q.begin() + i, Q.end());
-		if (!eval(qq, phi))
-			return false;
+	case expr_op::NEGATION: {
+		auto lch = eval(start, phi->left);
+		return lch ^ 1; // negate the result
 	}
-	return true;
-}
-
-bool checker::eval_F(const deque<alpha>& Q, const formula& phi) {
-	cout << recover_phi(phi) << endl;
-	for (int i = 0; i < Q.size() - 1; ++i) {
-		deque<alpha> qq(Q.begin() + i, Q.end());
-		if (eval(qq, phi))
-			return true;
+	case expr_op::AND: {
+		auto lch = eval(start, phi->left);
+		auto rch = eval(start, phi->right);
+		return lch && rch;
 	}
-	return false;
-}
-
-bool checker::eval_X(const deque<alpha>& Q, const formula& phi) {
-	cout << recover_phi(phi) << endl;
-	deque<alpha> qq(Q.begin() + 1, Q.end());
-	return eval(qq, phi);
-}
-
-bool checker::eval(const deque<alpha>& Q, const formula& phi) {
-	counting.clear();
-	for (const auto& s : Q) {
-		counting[s]++;
+	case expr_op::OR: {
+		auto lch = eval(start, phi->left);
+		auto rch = eval(start, phi->right);
+		return lch || rch;
 	}
-	size_Q = Q.size();
-
-	stack<nat> worklist;
-	for (int i = 0; i < phi.size(); ++i) {
-		auto comp = phi[i];
-		switch (comp.get_type()) {
-		case type_expr_node::VARIABLE:
-			if (phi[i + 1].get_op() == expr_op::COUNT) {
-				worklist.push(eval_counting(comp.get_var()));
-				++i;
-			}
-			break;
-		case type_expr_node::CONSTANT:
-			worklist.push(comp.get_val());
-			break;
-		default:
-			eval(comp.get_op(), worklist);
-			break;
-		}
+	case expr_op::IMPLICATION: {
+		auto lch = eval(start, phi->left);
+		auto rch = eval(start, phi->right);
+		return (lch ^ 1) || rch;
 	}
-	return worklist.top() == 1;
-}
-
-void checker::eval(const expr_op& op, stack<nat>& worklist) {
-	nat lhs, rhs;
-	switch (op) {
-	case expr_op::TMP_F:
-	case expr_op::TMP_G:
-	case expr_op::TMP_X:
-	case expr_op::TMP_U:
-	case expr_op::COUNT:
-		cout << op;
-		throw runtime_error(" should not appears here\n");
-		break;
-	case expr_op::SIZE:
-		worklist.push(size_Q);
-		break;
-	case expr_op::NEGATION:
-		rhs = worklist.top();
-		worklist.pop();
-		worklist.push(rhs == 0 ? 1 : 1);
-		break;
-	case expr_op::AND:
-		rhs = worklist.top();
-		worklist.pop();
-		lhs = worklist.top();
-		worklist.pop();
-		worklist.push(lhs & rhs);
-		break;
-	case expr_op::OR:
-		rhs = worklist.top();
-		worklist.pop();
-		lhs = worklist.top();
-		worklist.pop();
-		worklist.push(lhs | rhs);
-		break;
-	case expr_op::IMPLICATION:
-		rhs = worklist.top();
-		worklist.pop();
-		lhs = worklist.top();
-		worklist.pop();
-		worklist.push((lhs == 0 ? 1 : 0) | rhs);
-		break;
-	case expr_op::EQUIVALENCE:
-		rhs = worklist.top();
-		worklist.pop();
-		lhs = worklist.top();
-		worklist.pop();
-		worklist.push(lhs == rhs ? 1 : 0);
-		break;
-	case expr_op::EQUAL:
-		rhs = worklist.top();
-		worklist.pop();
-		lhs = worklist.top();
-		worklist.pop();
-		worklist.push(lhs == rhs ? 1 : 0);
-		break;
-	case expr_op::NOT_EQUAL:
-		rhs = worklist.top();
-		worklist.pop();
-		lhs = worklist.top();
-		worklist.pop();
-		worklist.push(lhs != rhs ? 1 : 0);
-		break;
-	case expr_op::LESS_THAN:
-		rhs = worklist.top();
-		worklist.pop();
-		lhs = worklist.top();
-		worklist.pop();
-		worklist.push(lhs < rhs ? 1 : 0);
-		break;
-	case expr_op::GREATER_THAN:
-		rhs = worklist.top();
-		worklist.pop();
-		lhs = worklist.top();
-		worklist.pop();
-		worklist.push(lhs > rhs ? 1 : 0);
-		break;
-	case expr_op::LESS_THAN_EQ:
-		rhs = worklist.top();
-		worklist.pop();
-		lhs = worklist.top();
-		worklist.pop();
-		worklist.push(lhs <= rhs ? 1 : 0);
-		break;
-	case expr_op::GREATER_THAN_EQ:
-		rhs = worklist.top();
-		worklist.pop();
-		lhs = worklist.top();
-		worklist.pop();
-		worklist.push(lhs >= rhs ? 1 : 0);
-		break;
-	case expr_op::ADDITION:
-		rhs = worklist.top();
-		worklist.pop();
-		lhs = worklist.top();
-		worklist.pop();
-		worklist.push(lhs + rhs);
-		break;
-	case expr_op::SUBTRACTION:
-		rhs = worklist.top();
-		worklist.pop();
-		lhs = worklist.top();
-		worklist.pop();
-		worklist.push(lhs - rhs);
-		break;
-	case expr_op::MULTIPLICATION:
-		rhs = worklist.top();
-		worklist.pop();
-		lhs = worklist.top();
-		worklist.pop();
-		worklist.push(lhs * rhs);
-		break;
+	case expr_op::EQUIVALENCE: {
+		auto lch = eval(start, phi->left);
+		auto rch = eval(start, phi->right);
+		return lch == rch;
+	}
+	case expr_op::EQUAL: {
+		auto lch = eval(start, phi->left);
+		auto rch = eval(start, phi->right);
+		return lch == rch;
+	}
+	case expr_op::NOT_EQUAL: {
+		auto lch = eval(start, phi->left);
+		auto rch = eval(start, phi->right);
+		return lch != rch;
+	}
+	case expr_op::LESS_THAN: {
+		auto lch = eval(start, phi->left);
+		auto rch = eval(start, phi->right);
+		return lch < rch;
+	}
+	case expr_op::GREATER_THAN: {
+		auto lch = eval(start, phi->left);
+		auto rch = eval(start, phi->right);
+		return lch > rch;
+	}
+	case expr_op::LESS_THAN_EQ: {
+		auto lch = eval(start, phi->left);
+		auto rch = eval(start, phi->right);
+		return lch <= rch;
+	}
+	case expr_op::GREATER_THAN_EQ: {
+		auto lch = eval(start, phi->left);
+		auto rch = eval(start, phi->right);
+		return lch >= rch;
+	}
+	case expr_op::ADDITION: {
+		auto lch = eval(start, phi->left);
+		auto rch = eval(start, phi->right);
+		return lch + rch;
+	}
+	case expr_op::SUBTRACTION: {
+		auto lch = eval(start, phi->left);
+		auto rch = eval(start, phi->right);
+		return lch - rch;
+	}
+	case expr_op::MULTIPLICATION: {
+		auto lch = eval(start, phi->left);
+		auto rch = eval(start, phi->right);
+		return lch * rch;
+	}
 	case expr_op::PARENTHSIS:
-		break;
+		return eval(start, phi->left);
 	default:
 		throw runtime_error("illgeal operator!");
-		break;
 	}
-}
-
-int checker::eval_counting(const alpha& a) {
-	return counting[a];
+	return 0;
 }
 
 /**
- * recover phi from expression
+ *
+ * @param a
  * @return
  */
-string checker::recover_phi(const formula& phi) {
-	stack<string> worklist;
-	for (const auto& comp : phi) {
-		switch (comp.get_type()) {
-		case type_expr_node::VARIABLE:
-			worklist.push(comp.get_var());
-			break;
-		case type_expr_node::CONSTANT:
-			worklist.push(std::to_string(comp.get_val()));
-			break;
-		default:
-			recover(comp.get_op(), worklist);
-			break;
-		}
+int checker::eval_count(const size_t start, const alpha& a) {
+	int n = 0;
+	for (int i = start; i < this->_Q.size(); ++i) {
+		if (_Q[i] == a)
+			++n;
 	}
-	return worklist.top();
+	return n;
 }
 
-void checker::recover(const expr_op& op, stack<string>& worklist) {
-	switch (op) {
-	case expr_op::TMP_F:
-		recover_unary("F", worklist);
-		break;
-	case expr_op::TMP_G:
-		recover_unary("G", worklist);
-		break;
-	case expr_op::TMP_X:
-		recover_unary("X", worklist);
-		break;
-	case expr_op::TMP_U:
-		recover_binary("U", worklist);
-		break;
-	case expr_op::COUNT:
-		recover_unary("#", worklist);
-		break;
-	case expr_op::SIZE:
-		worklist.emplace("[]");
-		break;
-	case expr_op::NEGATION:
-		recover_unary("!", worklist);
-		break;
-	case expr_op::AND:
-		recover_binary("&", worklist);
-		break;
-	case expr_op::OR:
-		recover_binary("|", worklist);
-		break;
-	case expr_op::IMPLICATION:
-		recover_binary("->", worklist);
-		break;
-	case expr_op::EQUIVALENCE:
-		recover_binary("<>", worklist);
-		break;
-	case expr_op::EQUAL:
-		recover_binary("=", worklist);
-		break;
-	case expr_op::NOT_EQUAL:
-		recover_binary("!=", worklist);
-		break;
-	case expr_op::LESS_THAN:
-		recover_binary("<", worklist);
-		break;
-	case expr_op::GREATER_THAN:
-		recover_binary(">", worklist);
-		break;
-	case expr_op::LESS_THAN_EQ:
-		recover_binary("<=", worklist);
-		break;
-	case expr_op::GREATER_THAN_EQ:
-		recover_binary(">=", worklist);
-		break;
-	case expr_op::ADDITION:
-		recover_binary("+", worklist);
-		break;
-	case expr_op::SUBTRACTION:
-		recover_binary("-", worklist);
-		break;
-	case expr_op::MULTIPLICATION:
-		recover_binary("*", worklist);
-		break;
-	case expr_op::PARENTHSIS: {
-		string lhs = worklist.top();
-		worklist.pop();
-		worklist.emplace("(" + lhs + ")");
-	}
-		break;
-	default:
-		throw runtime_error("illgeal operator!");
-		break;
-	}
-}
-
-/**
- *
- * @param op
- * @param worklist
- */
-void checker::recover_binary(const string& op, stack<string>& worklist) {
-	string rhs = worklist.top();
-	worklist.pop();
-	string lhs = worklist.top();
-	worklist.pop();
-	worklist.emplace(lhs + " " + op + " " + rhs);
-}
-
-/**
- *
- * @param op
- * @param worklist
- */
-void checker::recover_unary(const string& op, stack<string>& worklist) {
-	string lhs = worklist.top();
-	worklist.pop();
-	worklist.emplace(op + " " + lhs);
-}
 } /* namespace qultl */

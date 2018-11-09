@@ -124,7 +124,7 @@ una_temporal_ltl: prm_temporal_ltl { }
   qh.parse_phi(expr_op::TMP_X);
  }
 | T_TMP_NEGATION una_temporal_ltl {
-  qh.parse_phi(expr_op::NEGATION);
+  qh.parse_phi(expr_op::TMP_N);
  }
 ;
 

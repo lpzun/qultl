@@ -81,10 +81,10 @@ int main(const int argc, const char * const * const argv) {
 		qultl_parser parser(phi, queue_parser::E);
 		cout << endl;
 
-		checker mc(parser.get_phi(), queue_parser::E);
+		checker mc(parser.get_phi(), Q, queue_parser::E);
 
 		cout<<"==============================================\n";
-		if (mc.check(Q)) {
+		if (mc.check()) {
 			cout << "Check succeeded! Q |= phi holds! \n";
 		} else {
 			cout << "Check failed! Q |= phi does not hold! \n";

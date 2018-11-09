@@ -546,7 +546,7 @@ char *yytext;
 /*******************************************************************************  
  ** Name:    	qultl: lexer
  ** Authors: 	Peizun Liu
- ** Version: 	0.4
+ ** Version: 	0.1
  ** Copyright: 	It belongs to Thomas Wahl's group in CAR Lab, CCIS, NEU
  ** Date:       Oct. 2018
  ** Decription: qultl is a C++ version of QuLTL Parser. 

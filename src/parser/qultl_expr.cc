@@ -23,6 +23,9 @@ ostream& operator<<(ostream& os, const expr_op& op) {
 	case expr_op::TMP_U:
 		os << 'U';
 		break;
+	case expr_op::TMP_N:
+		os << '~';
+		break;
 	case expr_op::COUNT:
 		os << '#';
 		break;
@@ -143,8 +146,10 @@ bool qultl_expr::is_legal_alpha(const alpha& var) {
 }
 
 void qultl_expr::build_ast() {
+	cout << "false...\n";
 	stack<shared_ptr<ast_node>> worklist;
 	for (const auto enode : phi) {
+		cout << enode << endl;
 		switch (enode.get_type()) {
 		case type_expr_node::VARIABLE:
 			worklist.push(std::make_shared<ast_node>(enode));
@@ -158,6 +163,7 @@ void qultl_expr::build_ast() {
 		}
 	}
 	root = worklist.top();
+	cout << "false 22222...\n";
 }
 
 void qultl_expr::build_ast(const expr_node& enode,
@@ -165,7 +171,8 @@ void qultl_expr::build_ast(const expr_node& enode,
 	switch (enode.get_op()) {
 	case expr_op::TMP_F:
 	case expr_op::TMP_G:
-	case expr_op::TMP_X: {
+	case expr_op::TMP_X:
+	case expr_op::TMP_N: {
 		auto sp = make_shared<ast_node>(enode);
 		const auto lch = worklist.top();
 		worklist.pop();
@@ -186,12 +193,16 @@ void qultl_expr::build_ast(const expr_node& enode,
 		worklist.push(sp);
 	}
 		break;
-	case expr_op::COUNT:
-	case expr_op::SIZE: {
+	case expr_op::COUNT: {
 		auto sp = make_shared<ast_node>(enode);
 		const auto lch = worklist.top();
 		worklist.pop();
 		sp->left = lch;
+		worklist.push(sp);
+	}
+		break;
+	case expr_op::SIZE: {
+		auto sp = make_shared<ast_node>(enode);
 		worklist.push(sp);
 	}
 		break;
@@ -250,41 +261,25 @@ void qultl_expr::print(const shared_ptr<ast_node> root) {
 	if (root == nullptr)
 		return;
 	const auto& n = root->_node;
+	bool par = n.get_type() == type_expr_node::OPERATOR
+			&& n.get_op() == expr_op::PARENTHSIS;
+
+	if (par)
+		cout << "(";
 	if (root->right) {
-		if (n.get_type() == type_expr_node::OPERATOR
-				&& n.get_op() == expr_op::PARENTHSIS)
-			cout << "(";
 		print(root->left);
 		cout << " ";
-		if (n.get_type() == type_expr_node::OPERATOR
-				&& n.get_op() != expr_op::PARENTHSIS) {
-			if (n.get_op() != expr_op::PARENTHSIS)
-				cout << n.get_op();
-		} else if (n.get_type() == type_expr_node::VARIABLE)
-			cout << n.get_var();
-		else
-			cout << n.get_val();
+		if (!par)
+			cout << n;
 		cout << " ";
 		print(root->right);
-		if (n.get_type() == type_expr_node::OPERATOR
-				&& n.get_op() == expr_op::PARENTHSIS)
-			cout << ")";
 	} else {
-		if (n.get_type() == type_expr_node::OPERATOR
-				&& n.get_op() == expr_op::PARENTHSIS)
-			cout << "(";
-		if (n.get_type() == type_expr_node::OPERATOR) {
-			if (n.get_op() != expr_op::PARENTHSIS)
-				cout << n.get_op();
-		} else if (n.get_type() == type_expr_node::VARIABLE)
-			cout << n.get_var();
-		else
-			cout << n.get_val();
+		if (!par)
+			cout << n;
 		print(root->left);
-		if (n.get_type() == type_expr_node::OPERATOR
-				&& n.get_op() == expr_op::PARENTHSIS)
-			cout << ")";
 	}
+	if (par)
+		cout << ")";
 }
 
 ///////////////////////////////////////////////////////////////////////////////

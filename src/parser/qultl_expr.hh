@@ -18,6 +18,7 @@ enum class expr_op {
 	TMP_G,
 	TMP_X,
 	TMP_U,
+	TMP_N, /// temporal logical negation
 	/// queue operators
 	COUNT,
 	SIZE,
@@ -135,12 +136,11 @@ public:
 	bool syntax_check(const string& qexpr);
 	bool is_legal_alpha(const alpha& a);
 	void print();
-
-	const formula& get_phi() const {
-		return phi;
-	}
-
 	void build_ast();
+
+	const shared_ptr<ast_node>& get_root() const {
+		return root;
+	}
 
 private:
 	formula phi;

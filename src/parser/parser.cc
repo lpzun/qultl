@@ -130,7 +130,7 @@ qultl_parser::qultl_parser(const string& filename, const alphabet& _E) :
 	qh.build_ast();
 	cout << "phi := ";
 	qh.print();
-	phi = qh.get_phi();
+	phi = qh.get_root();
 }
 
 qultl_parser::~qultl_parser() {

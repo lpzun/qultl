@@ -14,35 +14,20 @@ namespace qultl {
 
 class checker {
 public:
-	checker(const formula& phi, const alphabet& E);
+	checker(const shared_ptr<ast_node>& phi, const deque<alpha>& Q,
+			const alphabet& E);
 	~checker();
 
-	bool check(const deque<string>& Q);
+	bool check();
 private:
-	formula _phi;
+	shared_ptr<ast_node> _phi;
+	deque<alpha> _Q;
 	alphabet _E;
-	unordered_map<alpha, nat> counting;
-	nat size_Q;
-	bool eval(const deque<string>& Q);
-	bool eval(const deque<alpha>& Q, const formula& phi);
 
-	void eval(const expr_op& op, stack<nat>& worklist);
-	void eval_binary(const string& op, stack<nat>& worklist);
-	void eval_unary(const string& op, stack<nat>& worklist);
-
-	bool eval_G(const deque<alpha>& Q, const formula& phi);
-	bool eval_X(const deque<alpha>& Q, const formula& phi);
-	bool eval_F(const deque<alpha>& Q, const formula& phi);
-	bool eval_U(const deque<alpha>& Q, const formula& phi);
-
-	nat eval_neg(nat v);
-	int eval_counting(const alpha& a);
-
-	/// Recover expression from parsing results
-	string recover_phi(const formula& phi);
-	void recover(const expr_op& op, stack<string>& worklist);
-	void recover_binary(const string& op, stack<string>& worklist);
-	void recover_unary(const string& op, stack<string>& worklist);
+	bool eval();
+	int eval(const size_t i, const shared_ptr<ast_node>& phi);
+	int eval_op(const size_t start, const shared_ptr<ast_node>& phi);
+	int eval_count(const size_t start, const alpha& a);
 };
 
 } /* namespace qultl */

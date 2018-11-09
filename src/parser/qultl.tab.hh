@@ -40,7 +40,7 @@
 #ifndef YY_YY_QULTL_TAB_HH_INCLUDED
 # define YY_YY_QULTL_TAB_HH_INCLUDED
 // //                    "%code requires" blocks.
-#line 21 "qultl.y" // lalr1.cc:392
+#line 14 "qultl.y" // lalr1.cc:392
 
 # include "qultl_expr.hh"
   using namespace qultl;
@@ -131,7 +131,7 @@ namespace yy {
     /// Symbol semantic values.
     union semantic_type
     {
-    #line 35 "qultl.y" // lalr1.cc:392
+    #line 28 "qultl.y" // lalr1.cc:392
 
   int   t_val; // token's value
   char *t_str; // token's name
