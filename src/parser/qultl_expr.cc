@@ -146,7 +146,6 @@ bool qultl_expr::is_legal_alpha(const alpha& var) {
 }
 
 void qultl_expr::build_ast() {
-	cout << "false...\n";
 	stack<shared_ptr<ast_node>> worklist;
 	for (const auto enode : phi) {
 		cout << enode << endl;
@@ -163,7 +162,6 @@ void qultl_expr::build_ast() {
 		}
 	}
 	root = worklist.top();
-	cout << "false 22222...\n";
 }
 
 void qultl_expr::build_ast(const expr_node& enode,
