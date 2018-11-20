@@ -66,30 +66,44 @@ int main(const int argc, const char * const * const argv) {
 		/// Problem Instances
 		const string& file = cmd.arg_value(
 				cmd_line::get_opt_index(opt_type::PROB), "--input-file");
+
 		if (file == "X")
 			throw runtime_error("Please specify an input file!");
 
 		const string& phi = cmd.arg_value(
 				cmd_line::get_opt_index(opt_type::PROB), "--qultl-file");
+
 		if (phi == "X")
 			throw runtime_error("Please specify a qultl file!");
+
+		bool abs = cmd.arg_bool(cmd_line::get_opt_index(opt_type::PROB),
+				"--abstract");
 
 		cout << "Start parsing queue ..." << endl;
 
 		const auto& Q = queue_parser::parse_intput_queue(file);
 
 		qultl_parser parser(phi, queue_parser::E);
+
 		cout << endl;
+		if (Q.first.size() > 0 && !abs) {
+			cout << "** WARNING: Queue is abstract with a concrete prefix! **\n";
+			cout
+					<< "** So, the verifier will not verify it concretely.    **\n";
+			cout
+					<< "** Instead, it will verify it abstractly ...          **\n";
+			abs = true;
+		}
 
-		checker mc(parser.get_phi(), Q, queue_parser::E);
+		checker mc(parser.get_phi(), Q.first, Q.second, queue_parser::E);
 
-		cout<<"==============================================\n";
-		if (mc.check()) {
+		cout << "==============================================\n";
+		if (mc.check(abs)) {
 			cout << "Check succeeded! Q |= phi holds! \n";
 		} else {
 			cout << "Check failed! Q |= phi does not hold! \n";
 		}
-		cout<<"==============================================\n";
+		cout << "==============================================\n";
 	} catch (const std::exception& e) {
 		cerr << "ERROR: " << e.what() << endl;
 	}

@@ -15,9 +15,12 @@ extern FILE *yyin;
 
 namespace qultl {
 
+
+using event_queue = pair<deque<alpha>, deque<alpha>>;
+
 class queue_parser {
 public:
-	static deque<string> parse_intput_queue(const string& filename);
+	static event_queue parse_intput_queue(const string& filename);
 	static alphabet E;
 private:
 	static void remove_comments(istream& in, ostream& out,

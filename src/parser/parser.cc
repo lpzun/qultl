@@ -15,8 +15,8 @@ alphabet queue_parser::E;
  * @param filename
  * @return
  */
-deque<string> queue_parser::parse_intput_queue(const string& filename) {
-	deque<string> Q;
+event_queue queue_parser::parse_intput_queue(const string& filename) {
+	event_queue Q;
 	/// original input file, possibly with comments
 	ifstream org_in(filename.c_str());
 	if (!org_in.good())
@@ -33,14 +33,24 @@ deque<string> queue_parser::parse_intput_queue(const string& filename) {
 	string sep;
 	string val;
 
-	deque<string> EE;
+	deque<alpha> EE;
 	while (std::getline(new_in, line)) {
 		if (line == "" || line.size() <= 2)
 			continue;
 		istringstream iss(line);
 		iss >> var >> sep >> val;
-		if (var == "Q")
-			Q = split(val, ',');
+		if (var == "Q") {
+			const auto p = split(val, '|');
+			if (p.size() == 2) { // abstract queue
+				cout<<"abstract queue\n";
+				Q = make_pair(split(p[0], ','), split(p[1], ','));
+			} else if (p.size() == 1) { // concrete queue
+				cout<<"concrete queue\n";
+				Q = make_pair(deque<alpha>(), split(p[0], ','));
+			} else {
+				throw runtime_error("queue format is illegal");
+			}
+		}
 		if (var == "E")
 			EE = split(val, ',');
 	}

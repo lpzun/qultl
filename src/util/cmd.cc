@@ -258,7 +258,7 @@ void cmd_line::print_usage_info(const string& prog_name, const ushort& indent,
 					prog_name + " " + SHORT_HELP_OPT + " [" + LONG_HELP_OPT
 							+ "]", this->name_width, alignment::LEFTJUST)
 			<< widthify("show help message", 0, alignment::LEFTJUST);
-	out<<endl;
+	out << endl;
 
 	for (size_t i = 0; i < types.size(); i++) {
 		if (i == 2)
@@ -312,8 +312,13 @@ void cmd_line::create_argument_list() {
 	/// problem instance
 	this->add_option(get_opt_index(opt_type::PROB), "-f", "--input-file",
 			"an input file", "X");
+
 	this->add_option(get_opt_index(opt_type::PROB), "-l", "--qultl-file",
-					"a qultl file", "X");
+			"a qultl file", "X");
+
+	/// problem instance
+	this->add_switch(get_opt_index(opt_type::PROB), "-a", "--abstract",
+			"verify queue in an abstract way");
 }
 
 /**

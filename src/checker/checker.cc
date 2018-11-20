@@ -14,9 +14,10 @@ namespace qultl {
  * @param phi
  * @param E
  */
-checker::checker(const shared_ptr<ast_node>& phi, const deque<alpha>& Q,
+checker::checker(const shared_ptr<ast_node>& phi, const deque<alpha>& P,
+		const deque<alpha>& Q,
 		const alphabet& E) :
-		_phi(phi), _Q(Q), _E(E) {
+		_phi(phi), _P(), _Q(Q), _E(E) {
 }
 
 checker::~checker() {
@@ -25,10 +26,26 @@ checker::~checker() {
 
 /**
  *
- * @param Q
+ * @param abstract: whether interpret Q abstractly or concretely
  * @return bool
  */
-bool checker::check() {
+bool checker::check(const bool abstract) {
+	return abstract ? abstract_check() : concrete_check();
+}
+
+/**
+ * Check abstract queue
+ * @return bool
+ */
+bool checker::abstract_check() {
+	return true;
+}
+
+/**
+ * Check concrete queue
+ * @return bool
+ */
+bool checker::concrete_check() {
 	for (const auto &a : _Q) {
 		if (_E.find(a) == _E.end())
 			throw runtime_error("Illegal message!");
@@ -42,15 +59,13 @@ bool checker::check() {
  * @return
  */
 bool checker::eval() {
-	return eval(0, _phi);
+	return eval(0, _phi) == 1;
 }
 
 int checker::eval(const size_t i, const shared_ptr<ast_node>& phi) {
 	if (i == _Q.size() || phi == nullptr)
 		return 0;
-
 	auto node = phi->_node;
-
 	switch (node.get_type()) {
 	case type_expr_node::VARIABLE:
 		return node.get_var() == this->_Q[i] ? 1 : 0;
